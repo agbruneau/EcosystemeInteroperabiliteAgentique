@@ -109,5 +109,60 @@
     "shortTitle": "Annexes",
     "category": "transversal",
     "color": "#6b7280"
+  },
+  {
+    "source": "Volume_I_Consolide.md",
+    "slug": "volume-1-fondations",
+    "roman": "I",
+    "title": "Volume I — Fondations de l'Entreprise Agentique",
+    "shortTitle": "Vol. I. Fondations",
+    "category": "volume",
+    "color": "#7c3aed",
+    "badge": "Volume",
+    "type": "volume"
+  },
+  {
+    "source": "Volume_II_Consolide.md",
+    "slug": "volume-2-infrastructure",
+    "roman": "II",
+    "title": "Volume II — Infrastructure Agentique",
+    "shortTitle": "Vol. II. Infrastructure",
+    "category": "volume",
+    "color": "#7c3aed",
+    "badge": "Volume",
+    "type": "volume"
+  },
+  {
+    "source": "Volume_III_Consolide.md",
+    "slug": "volume-3-kafka",
+    "roman": "III",
+    "title": "Volume III — Apache Kafka : Guide de l'Architecte",
+    "shortTitle": "Vol. III. Apache Kafka",
+    "category": "volume",
+    "color": "#7c3aed",
+    "badge": "Volume",
+    "type": "volume"
+  },
+  {
+    "source": "Volume_IV_Consolide.md",
+    "slug": "volume-4-iceberg",
+    "roman": "IV",
+    "title": "Volume IV — Apache Iceberg : Lakehouse",
+    "shortTitle": "Vol. IV. Apache Iceberg",
+    "category": "volume",
+    "color": "#7c3aed",
+    "badge": "Volume",
+    "type": "volume"
+  },
+  {
+    "source": "Volume_V_Consolide.md",
+    "slug": "volume-5-developpeur",
+    "roman": "V",
+    "title": "Volume V — Le Développeur Renaissance",
+    "shortTitle": "Vol. V. Développeur Renaissance",
+    "category": "volume",
+    "color": "#7c3aed",
+    "badge": "Volume",
+    "type": "volume"
   }
 ]

@@ -14,6 +14,7 @@ const chapters = JSON.parse(fs.readFileSync(CHAPTERS_FILE, 'utf-8'));
 const chapterTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'chapter.html'), 'utf-8');
 const indexTemplate = fs.readFileSync(path.join(TEMPLATES_DIR, 'index.html'), 'utf-8');
 
+
 // Configure marked
 marked.setOptions({
   gfm: true,
@@ -77,11 +78,28 @@ function buildChapterCard(ch) {
       </a>`;
 }
 
-// Generate chapter pages
-console.log('Building chapter pages...');
-const sidebar = buildSidebar(chapters);
+// Separate chapters and volumes
+const chaptersList = chapters.filter(ch => ch.type !== 'volume');
+const volumesList = chapters.filter(ch => ch.type === 'volume');
 
-chapters.forEach((ch, index) => {
+// Build sidebar navigation with both sections
+function buildFullSidebar(chaptersList, volumesList) {
+  const chapterLinks = chaptersList.map(ch =>
+    `        <li><a href="${ch.slug}.html">${ch.shortTitle}</a></li>`
+  ).join('\n');
+  const volumeLinks = volumesList.map(ch =>
+    `        <li><a href="${ch.slug}.html">${ch.shortTitle}</a></li>`
+  ).join('\n');
+  return chapterLinks +
+    '\n      </ul>\n      <h3 style="margin-top: 1.5rem;">Volumes</h3>\n      <ul>\n' +
+    volumeLinks;
+}
+
+// Generate chapter and volume pages
+console.log('Building chapter pages...');
+const sidebar = buildFullSidebar(chaptersList, volumesList);
+
+chapters.forEach((ch) => {
   const mdPath = path.join(CHAPTERS_DIR, ch.source);
 
   if (!fs.existsSync(mdPath)) {
@@ -103,18 +121,22 @@ chapters.forEach((ch, index) => {
     `        <li><a href="#${h.id}">${h.text}</a></li>`
   ).join('\n');
 
-  // Build prev/next navigation
-  const prev = index > 0 ? chapters[index - 1] : null;
-  const next = index < chapters.length - 1 ? chapters[index + 1] : null;
+  // Build prev/next navigation within the same group (chapters or volumes)
+  const group = ch.type === 'volume' ? volumesList : chaptersList;
+  const groupIndex = group.indexOf(ch);
+  const prev = groupIndex > 0 ? group[groupIndex - 1] : null;
+  const next = groupIndex < group.length - 1 ? group[groupIndex + 1] : null;
+
+  const navPrefix = ch.type === 'volume' ? 'Vol.' : 'Ch.';
 
   const prevLink = prev
-    ? `        <a href="${prev.slug}.html" class="nav-link">&larr; Ch. ${prev.roman || 'Annexes'}</a>`
+    ? `        <a href="${prev.slug}.html" class="nav-link">&larr; ${navPrefix} ${prev.roman || 'Annexes'}</a>`
     : '        <span></span>';
   const nextLink = next
-    ? `        <a href="${next.slug}.html" class="nav-link">Ch. ${next.roman || 'Annexes'} &rarr;</a>`
+    ? `        <a href="${next.slug}.html" class="nav-link">${navPrefix} ${next.roman || 'Annexes'} &rarr;</a>`
     : '        <span></span>';
 
-  // Build chapter-specific sidebar: chapter list + in-page TOC
+  // Build chapter-specific sidebar: chapter list + volumes + in-page TOC
   const chapterSidebar = sidebar + '\n      </ul>\n      <h3 style="margin-top: 1.5rem;">Dans ce chapitre</h3>\n      <ul>\n' + tocHtml;
 
   // Assemble page
@@ -135,8 +157,13 @@ chapters.forEach((ch, index) => {
 
 // Generate index page
 console.log('Building index page...');
-const chaptersGrid = chapters.map(buildChapterCard).join('\n\n');
-const indexPage = indexTemplate.replace('{{CHAPTERS_GRID}}', chaptersGrid);
+const chapterEntries = chapters.filter(ch => ch.type !== 'volume');
+const volumeEntries = chapters.filter(ch => ch.type === 'volume');
+const chaptersGrid = chapterEntries.map(buildChapterCard).join('\n\n');
+const volumesGrid = volumeEntries.map(buildChapterCard).join('\n\n');
+const indexPage = indexTemplate
+  .replace('{{CHAPTERS_GRID}}', chaptersGrid)
+  .replace('{{VOLUMES_GRID}}', volumesGrid);
 fs.writeFileSync(path.join(OUTPUT_DIR, 'index.html'), indexPage, 'utf-8');
 console.log('  index.html');
 
@@ -160,7 +187,11 @@ function copyDir(src, dest) {
   }
 }
 
-copyDir(PUBLIC_DIR, publicOut);
+if (fs.existsSync(PUBLIC_DIR)) {
+  copyDir(PUBLIC_DIR, publicOut);
+} else {
+  console.log('  (no public directory found, skipping asset copy)');
+}
 
 console.log(`\nBuild complete! Output in: ${OUTPUT_DIR}`);
 console.log(`Total pages: ${chapters.length + 1} (${chapters.length} chapters + index)`);
