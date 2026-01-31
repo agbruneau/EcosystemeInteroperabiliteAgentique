@@ -1,17 +1,17 @@
-# Interopérabilité en Écosystème d'Entreprise
+# Écosystème et Interopérabilité
 
-Convergence des Architectures d'Intégration — Du Couplage Fort au Découplage Maximal
+Architectures d'Intégration — Du Couplage Fort au Découplage Maximal
 
 ## Structure du projet
 
 ```
 ├── Chapitres/          # Fichiers sources Markdown (12 chapitres + annexes)
-├── public/             # Assets statiques (Poster, Présentation PDF, Podcast, MindMap)
 ├── templates/          # Templates HTML (accueil et chapitres)
 ├── build.js            # Script de génération des pages HTML
 ├── chapters.json       # Métadonnées des chapitres (titres, slugs, catégories)
 ├── package.json        # Dépendances Node.js
 └── docs/               # Pages HTML générées (output du build)
+    └── public/         # Assets statiques (Posters, Présentation PDF, Podcast)
 ```
 
 ## Prérequis
@@ -68,20 +68,30 @@ Le site se déploie automatiquement via GitHub Actions à chaque push sur la bra
 
 ## Contenu
 
-| Chapitre | Sujet |
-|----------|-------|
-| I | Introduction et Problématique |
-| II | Fondements Théoriques |
-| III | Intégration des Applications |
-| IV | Intégration des Données |
-| V | Intégration des Événements |
-| VI | Standards et Contrats d'Interface |
-| VII | Résilience et Observabilité |
-| VIII | Collaboration et Automatisation |
-| IX | Architecture de Référence |
-| X | Étude de Cas : Order-to-Cash |
-| XI | L'Entreprise Agentique |
-| — | Annexes |
+| Chapitre | Sujet                             |
+| -------- | --------------------------------- |
+| I        | Introduction et Problématique    |
+| II       | Fondements Théoriques            |
+| III      | Intégration des Applications     |
+| IV       | Intégration des Données         |
+| V        | Intégration des Événements     |
+| VI       | Standards et Contrats d'Interface |
+| VII      | Résilience et Observabilité     |
+| VIII     | Collaboration et Automatisation   |
+| IX       | Architecture de Référence       |
+| X        | Étude de Cas : Order-to-Cash     |
+| XI       | L'Entreprise Agentique            |
+| —       | Annexes                           |
+
+## Ressources complémentaires
+
+La page d'accueil donne accès aux ressources suivantes :
+
+- **Présentation (PDF)** — Diaporama synthétique du contenu
+- **Podcast (M4A)** — Version audio de la présentation
+- **Poster — Le Continuum d'Intégration** — Vue d'ensemble visuelle (SVG)
+
+Ces fichiers se trouvent dans `docs/public/`.
 
 ## Ajouter ou modifier un chapitre
 
