@@ -1,6 +1,31 @@
-# Écosystème et Interopérabilité
+# Écosystème et Interopérabilité Agentique
 
-Architectures d'Intégration — Du Couplage Fort au Découplage Maximal
+**Architectures d'Intégration — Du Couplage Fort au Découplage Maximal**
+
+Publication professionnelle couvrant l'ensemble du spectre de l'interopérabilité des systèmes d'entreprise : des intégrations traditionnelles point-à-point jusqu'aux architectures agentiques pilotées par l'IA. Le contenu est structuré en 12 chapitres et 5 volumes consolidés, publié sous forme de site statique HTML.
+
+## Thèse centrale
+
+L'interopérabilité se situe sur un continuum allant du couplage fort au découplage maximal. Ce continuum s'articule autour de trois domaines d'intégration :
+
+- **Le Verbe** — Intégration des applications (action synchrone, orchestration)
+- **Le Nom** — Intégration des données (cohérence d'état, accessibilité)
+- **Le Signal** — Intégration des événements (communication asynchrone, découplage maximal)
+
+## Sujets couverts
+
+- **Fondements théoriques** — Théorème CAP, modèle PACELC, couplage spatio-temporel, System of Record
+- **Patrons d'architecture applicative** — API Gateway, BFF, Circuit Breaker, Service Mesh, Strangler Fig, Saga, orchestration vs chorégraphie
+- **Patrons d'intégration de données** — CDC, CQRS, Event Sourcing, Data Mesh, MDM, Data Virtualization, Medallion Architecture
+- **Patrons événementiels** — Pub/Sub, Event Streaming, Transactional Outbox, Dead Letter Queue, vues matérialisées
+- **Standards et contrats** — OpenAPI, gRPC, AsyncAPI, CloudEvents, JSON-LD, Protocol Buffers, Apache Avro
+- **Résilience et observabilité** — OpenTelemetry, traçage distribué, tolérance aux pannes
+- **Étude de cas** — Processus Order-to-Cash de bout en bout
+- **Entreprise agentique** — Agents IA comme orchestrateurs d'intégration
+
+## Technologies référencées
+
+Apache Kafka, RabbitMQ, Apache Pulsar, Apache Iceberg, PostgreSQL, MongoDB, ClickHouse, Kubernetes, Docker, Prometheus, Jaeger, OAuth 2.0, mTLS
 
 ## Structure du projet
 
@@ -111,3 +136,7 @@ Ces fichiers se trouvent dans `public/` (copiés dans `docs/public/` lors du bui
 1. Modifier le fichier Markdown correspondant dans `Chapitres/`
 2. Si un nouveau chapitre est ajouté, mettre à jour `chapters.json`
 3. Relancer `npm run build`
+
+## Public cible
+
+Architectes d'entreprise, architectes de solutions, spécialistes en intégration, leaders technologiques et développeurs souhaitant approfondir les patrons d'intégration modernes et la transition vers l'entreprise agentique.
