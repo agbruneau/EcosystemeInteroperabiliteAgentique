@@ -263,11 +263,14 @@
 
     <div style="margin-top:1.5rem;background:var(--color-surface);padding:1.25rem;border-radius:8px;border-left:4px solid #60a5fa;">
       <h3 style="font-size:1rem;color:var(--color-heading);margin-bottom:0.5rem;">Exemple concret : Domaine Interopérabilité</h3>
-      <ul style="padding-left:1.2rem;font-size:0.9rem;color:var(--color-text-muted);">
-        <li><strong style="color:var(--color-text);">Standardiser :</strong> Imposer le format JSON/REST pour les APIs et Avro pour les flux Kafka.</li>
-        <li><strong style="color:var(--color-text);">Fiabiliser :</strong> Garantir que les échanges entre systèmes sont chiffrés et traçables.</li>
-        <li><strong style="color:var(--color-text);">Optimiser :</strong> Identifier les interfaces redondantes pour rationaliser le catalogue d'APIs.</li>
-      </ul>
+      <ol style="padding-left:1.2rem;font-size:0.9rem;color:var(--color-text-muted);">
+        <li><strong style="color:var(--color-text);">Orienter :</strong> Définir une vision <em>API-First</em> à 3 ans pour découpler les systèmes monolithiques et favoriser l'intégration événementielle.</li>
+        <li><strong style="color:var(--color-text);">Standardiser :</strong> Imposer le format JSON/REST pour les APIs synchrones et Avro/CloudEvents pour les flux Kafka asynchrones.</li>
+        <li><strong style="color:var(--color-text);">Gouverner :</strong> Soumettre les interfaces à une revue d'architecture et documenter les décisions dans un ADR (<em>Architecture Decision Record</em>).</li>
+        <li><strong style="color:var(--color-text);">Accompagner :</strong> Fournir des accélérateurs (templates OpenAPI, SDK internes) et coacher les équipes sur les patterns d'intégration.</li>
+        <li><strong style="color:var(--color-text);">Fiabiliser :</strong> Garantir que les échanges entre systèmes sont chiffrés (mTLS), traçables (correlation ID) et résilients (circuit breaker, retry).</li>
+        <li><strong style="color:var(--color-text);">Optimiser :</strong> Identifier les interfaces redondantes pour rationaliser le catalogue d'APIs et optimiser les coûts de transit réseau.</li>
+      </ol>
     </div>
   </div>
 
