@@ -154,6 +154,67 @@
     ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
     ::-webkit-scrollbar-thumb:hover { background: #555; }
 
+    .verb-card {
+      display: block;
+      background: var(--color-surface);
+      padding: 1.25rem;
+      border-radius: 8px;
+      color: var(--color-text);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
+    }
+
+    .verb-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+      background: #222222;
+    }
+
+    .verb-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--color-heading);
+      margin-bottom: 0.4rem;
+    }
+
+    .verb-card .verb-subtitle {
+      font-size: 0.85rem;
+      color: var(--color-link);
+      font-style: italic;
+      margin-bottom: 0.6rem;
+    }
+
+    .verb-card .verb-goal {
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .verb-card ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    .verb-card ul li {
+      font-size: 0.82rem;
+      color: var(--color-text-muted);
+      padding: 0.15rem 0;
+      padding-left: 0.8rem;
+      position: relative;
+    }
+
+    .verb-card ul li::before {
+      content: "—";
+      position: absolute;
+      left: 0;
+      color: #444;
+    }
+
+    .verb-card ul li strong {
+      color: var(--color-text);
+      font-weight: 600;
+    }
+
     @media (max-width: 600px) {
       .hero h1 { font-size: 1.5rem; }
       .hero p { font-size: 0.95rem; }
@@ -180,6 +241,77 @@
   </div>
 
   <div class="container">
+    <h2>Verbes de l'Architecture de Domaine</h2>
+
+    <div class="grid">
+      <div class="verb-card" style="border-left: 4px solid #3b82f6;">
+        <h3>1. Orienter</h3>
+        <div class="verb-subtitle">Boussole du domaine</div>
+        <div class="verb-goal">S'assurer que chaque investissement technologique rapproche l'organisation de sa cible d'affaires.</div>
+        <ul>
+          <li><strong>Vision</strong> : Définir l'état futur du domaine à 2-3 ans.</li>
+          <li><strong>Roadmaps</strong> : Séquencer les étapes de transition pour éviter la dette technique.</li>
+          <li><strong>Principes</strong> : Établir les "lois" fondamentales (ex: Cloud First, API First).</li>
+        </ul>
+      </div>
+
+      <div class="verb-card" style="border-left: 4px solid #8b5cf6;">
+        <h3>2. Standardiser</h3>
+        <div class="verb-subtitle">Réduire la complexité et la fragmentation</div>
+        <div class="verb-goal">Gagner en agilité et réduire les coûts.</div>
+        <ul>
+          <li><strong>Normes</strong> : Sélection des technologies et versions supportées.</li>
+          <li><strong>Patterns</strong> : Modèles de conception réutilisables (ex: pattern de messagerie asynchrone pour l'interopérabilité).</li>
+          <li><strong>Architecture de Référence</strong> : Blueprints types pour accélérer le démarrage des projets.</li>
+        </ul>
+      </div>
+
+      <div class="verb-card" style="border-left: 4px solid #ef4444;">
+        <h3>3. Gouverner</h3>
+        <div class="verb-subtitle">Cohérence et conformité</div>
+        <div class="verb-goal">Assurer la cohérence et la conformité à travers le parc applicatif.</div>
+        <ul>
+          <li><strong>Revues d'architecture</strong> : Valider que les solutions respectent les standards.</li>
+          <li><strong>Décisions</strong> : Arbitrer entre plusieurs options technologiques.</li>
+          <li><strong>Exceptions</strong> : Gérer les dérogations de manière documentée et temporaire.</li>
+        </ul>
+      </div>
+
+      <div class="verb-card" style="border-left: 4px solid #f59e0b;">
+        <h3>4. Accompagner</h3>
+        <div class="verb-subtitle">Partenaire de confiance</div>
+        <div class="verb-goal">Agir comme un partenaire de confiance pour les équipes de livraison.</div>
+        <ul>
+          <li><strong>Cadrage</strong> : Définir les besoins non-fonctionnels dès le début du projet.</li>
+          <li><strong>Design</strong> : Co-concevoir les solutions complexes.</li>
+          <li><strong>Coaching</strong> : Élever la maturité technique des développeurs et analystes.</li>
+        </ul>
+      </div>
+
+      <div class="verb-card" style="border-left: 4px solid #10b981;">
+        <h3>5. Fiabiliser</h3>
+        <div class="verb-subtitle">Robustesse et pérennité</div>
+        <div class="verb-goal">Garantir la robustesse et la pérennité des actifs technologiques.</div>
+        <ul>
+          <li><strong>Sécurité &amp; Résilience</strong> : Intégrer la haute disponibilité et la protection des données par design.</li>
+          <li><strong>Exploitabilité</strong> : S'assurer que les systèmes sont monitorables et maintenables en production.</li>
+        </ul>
+      </div>
+
+      <div class="verb-card" style="border-left: 4px solid #06b6d4;">
+        <h3>6. Optimiser</h3>
+        <div class="verb-subtitle">Maximiser la valeur, minimiser le gaspillage</div>
+        <div class="verb-goal">Approche FinOps et cycle de vie.</div>
+        <ul>
+          <li><strong>Gestion des coûts</strong> : Optimiser la consommation Cloud et les licences.</li>
+          <li><strong>Lifecycle</strong> : Gérer l'obsolescence (remplacement des systèmes en fin de vie).</li>
+          <li><strong>Fournisseurs</strong> : Évaluer la performance des partenaires technologiques.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
     <h2>Intégration - Chapitres</h2>
 
     <div class="legend">
@@ -194,6 +326,7 @@
       <a href="01-introduction.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">I</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre I — Introduction et Problématique</h3>
       </a>
@@ -201,6 +334,7 @@
       <a href="02-fondements.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">II</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre II — Fondements Théoriques</h3>
       </a>
@@ -232,6 +366,7 @@
       <a href="06-standards.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">VI</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre VI — Standards et Contrats d'Interface</h3>
       </a>
@@ -239,6 +374,7 @@
       <a href="07-resilience.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">VII</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre VII — Résilience et Observabilité</h3>
       </a>
@@ -246,6 +382,7 @@
       <a href="08-collaboration.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">VIII</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre VIII — Collaboration et Automatisation</h3>
       </a>
@@ -253,6 +390,7 @@
       <a href="09-architecture.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">IX</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre IX — Architecture de Référence</h3>
       </a>
@@ -260,6 +398,7 @@
       <a href="10-order-to-cash.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">X</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre X — Étude de Cas : Order-to-Cash</h3>
       </a>
@@ -267,6 +406,7 @@
       <a href="11-entreprise-agentique.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman">XI</span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Chapitre XI — L'Entreprise Agentique</h3>
       </a>
@@ -274,6 +414,7 @@
       <a href="annexes.html" class="card" style="border-left: 4px solid #6b7280;">
         <div class="card-header">
           <span class="roman"></span>
+          <span style="background:#6b7280;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Transversal</span>
         </div>
         <h3>Annexes</h3>
       </a>
