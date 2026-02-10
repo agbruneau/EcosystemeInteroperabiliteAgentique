@@ -64,15 +64,14 @@ const volumes = chapters.filter(c => c.type === 'volume');
 
 function buildCardHtml(ch) {
   const badgeHtml = ch.badge
-    ? `\n          <span style="background:${ch.color};color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">${ch.badge}</span>`
+    ? `<span class="tag" style="background:${ch.color};">${ch.badge}</span>`
     : '';
-  const romanHtml = ch.roman ? `<span class="roman">${ch.roman}</span>` : `<span class="roman"></span>`;
-  const title = ch.type === 'volume' ? ch.title : ch.title;
-  return `      <a href="${ch.slug}.html" class="card" style="border-left: 4px solid ${ch.color};">
-        <div class="card-header">
+  const romanHtml = ch.roman ? `<span class="numeral">${ch.roman}</span>` : '';
+  return `      <a href="${ch.slug}.html" class="card" style="--card-accent:${ch.color};">
+        <div class="card-badge">
           ${romanHtml}${badgeHtml}
         </div>
-        <h3>${title}</h3>
+        <h3>${ch.title}</h3>
       </a>`;
 }
 

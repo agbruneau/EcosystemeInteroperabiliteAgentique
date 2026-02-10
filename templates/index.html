@@ -3,425 +3,928 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Écosystème et Interopérabilité</title>
+  <title>Interopérabilité et Agentique — Référentiel de Domaine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
   <style>
     :root {
-      --color-bg: #0f0f0f;
-      --color-surface: #1a1a1a;
-      --color-text: #e0e0e0;
-      --color-text-muted: #9ca3af;
-      --color-heading: #f5f5f5;
-      --color-border: #2e2e2e;
-      --color-link: #60a5fa;
-      --max-width: 64rem;
+      --bg-deep: #080b14;
+      --bg-surface: #0d1117;
+      --bg-card: #111820;
+      --bg-card-hover: #161e2a;
+      --border: rgba(99,140,210,0.1);
+      --border-glow: rgba(99,140,210,0.25);
+      --text: #c9d1d9;
+      --text-muted: #7d8590;
+      --text-heading: #e6edf3;
+      --text-bright: #f0f6fc;
+      --accent: #58a6ff;
+      --accent-glow: rgba(88,166,255,0.15);
+      --accent-dim: rgba(88,166,255,0.08);
+      --grid-line: rgba(99,140,210,0.04);
+      --max-w: 72rem;
+      --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
+      --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --cat-transversal: #eab308;
+      --cat-applications: #2563eb;
+      --cat-donnees: #059669;
+      --cat-evenements: #d97706;
+      --cat-volume: #a855f7;
+      --cat-annexe: #6b7280;
     }
 
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-      background: var(--color-bg);
-      color: var(--color-text);
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text);
       line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
+    /* ── Blueprint grid background ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body > * { position: relative; z-index: 1; }
+
+    /* ── Scrollbar ── */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: #2a3444; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3a4a5a; }
+
+    /* ── Animations ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 1; }
+    }
+    @keyframes line-draw {
+      from { stroke-dashoffset: 800; }
+      to { stroke-dashoffset: 0; }
+    }
+
+    .fade-in {
+      opacity: 0;
+      animation: fadeUp 0.7s ease-out forwards;
+    }
+
+    /* ── Hero ── */
     .hero {
-      background: linear-gradient(135deg, #0a0a0a 0%, #141420 50%, #1a1a2e 100%);
-      color: #f5f5f5;
+      position: relative;
       text-align: center;
-      padding: 3rem 2rem 2rem;
-      border-bottom: 1px solid var(--color-border);
+      padding: 5rem 2rem 4rem;
+      overflow: hidden;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,166,255,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 80% at 20% 100%, rgba(168,85,247,0.06) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 80% at 80% 100%, rgba(5,150,105,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    /* SVG network lines in hero */
+    .hero-network {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      pointer-events: none;
+    }
+    .hero-network svg {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+    }
+    .hero-network line {
+      stroke: var(--accent);
+      stroke-width: 0.5;
+      opacity: 0.12;
+      stroke-dasharray: 800;
+      animation: line-draw 4s ease-out forwards;
+    }
+    .hero-network circle {
+      fill: var(--accent);
+      opacity: 0;
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+    .hero-network circle:nth-child(2) { animation-delay: 0.5s; }
+    .hero-network circle:nth-child(3) { animation-delay: 1.2s; }
+    .hero-network circle:nth-child(4) { animation-delay: 1.8s; }
+    .hero-network circle:nth-child(5) { animation-delay: 0.8s; }
+    .hero-network circle:nth-child(6) { animation-delay: 2.2s; }
+
+    .hero-overline {
+      font-family: var(--font-body);
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.25rem;
+      animation: fadeUp 0.6s ease-out 0.1s both;
     }
 
     .hero h1 {
-      font-size: 2.2rem;
-      margin-bottom: 0.75rem;
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      color: var(--text-bright);
+      line-height: 1.15;
       letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      animation: fadeUp 0.7s ease-out 0.2s both;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
     }
 
-    .hero p {
+    .hero-subtitle {
       font-size: 1.1rem;
-      opacity: 0.8;
-      max-width: 42rem;
-      margin: 0 auto;
+      color: var(--text-muted);
+      max-width: 40rem;
+      margin: 0 auto 2rem;
+      animation: fadeUp 0.7s ease-out 0.35s both;
     }
 
-    .poster-section {
-      text-align: center;
-      padding: 2rem 1rem;
-      background: var(--color-surface);
-      border-bottom: 1px solid var(--color-border);
-    }
-
-    .poster-section img {
-      max-width: 100%;
-      max-height: 600px;
-      border-radius: 12px;
-      box-shadow: 0 4px 24px rgba(0,0,0,0.4);
-    }
-
-    .poster-section p {
-      margin-top: 0.75rem;
-      font-size: 0.9rem;
-      color: var(--color-text-muted);
-    }
-
-    .container {
-      max-width: var(--max-width);
-      margin: 0 auto;
-      padding: 2rem 1.5rem;
-    }
-
-    .container > h2 {
-      font-size: 1.5rem;
-      margin-bottom: 1.5rem;
-      color: var(--color-heading);
-    }
-
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-      gap: 1rem;
-    }
-
-    .card {
-      display: block;
-      background: var(--color-surface);
-      padding: 1.25rem;
-      border-radius: 8px;
-      text-decoration: none;
-      color: var(--color-text);
-      box-shadow: 0 1px 4px rgba(0,0,0,0.3);
-      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
-    }
-
-    .card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
-      background: #222222;
-    }
-
-    .card-header {
+    /* ── Resource bar (PDF, Podcast, links) ── */
+    .resource-bar {
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      padding: 1.25rem 2rem;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+      background: transparent;
+    }
+    .resource-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+    .resource-link svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .resource-bar audio {
+      height: 36px;
+      border-radius: 6px;
+      max-width: 320px;
+    }
+
+    /* ── Poster sections ── */
+    .poster-section {
+      text-align: center;
+      padding: 3rem 1.5rem;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
+    .poster-section img {
+      max-width: 100%;
+      max-height: 620px;
+      border-radius: 10px;
+      box-shadow:
+        0 0 0 1px rgba(99,140,210,0.08),
+        0 8px 40px rgba(0,0,0,0.5),
+        0 0 80px rgba(88,166,255,0.04);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+    }
+    .poster-section img:hover {
+      transform: scale(1.01);
+      box-shadow:
+        0 0 0 1px rgba(99,140,210,0.15),
+        0 12px 50px rgba(0,0,0,0.6),
+        0 0 100px rgba(88,166,255,0.08);
+    }
+
+    /* ── Section containers ── */
+    .section {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 3.5rem 2rem;
+    }
+
+    .section-header {
+      margin-bottom: 2rem;
+    }
+
+    .section-label {
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
       margin-bottom: 0.5rem;
     }
 
-    .roman {
-      font-size: 0.85rem;
-      font-weight: 700;
-      color: var(--color-text-muted);
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      color: var(--text-heading);
+      line-height: 1.25;
     }
 
-    .card h3 {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--color-heading);
+    .section-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      max-width: 52rem;
+      margin-top: 0.75rem;
     }
 
+    /* ── Legend ── */
     .legend {
       display: flex;
-      gap: 1.5rem;
-      margin-bottom: 1.5rem;
+      gap: 1.25rem;
       flex-wrap: wrap;
+      margin-bottom: 1.75rem;
     }
-
     .legend-item {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      font-size: 0.85rem;
-      color: var(--color-text-muted);
+      gap: 0.45rem;
+      font-size: 0.82rem;
+      color: var(--text-muted);
     }
-
     .legend-dot {
-      width: 12px;
-      height: 12px;
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
+      box-shadow: 0 0 6px currentColor;
     }
 
+    /* ── Card grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.85rem;
+    }
+    .grid-wide {
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    }
+
+    /* ── Cards: chapters & volumes ── */
+    .card {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      background: var(--bg-card);
+      padding: 1.3rem 1.4rem;
+      border-radius: 8px;
+      text-decoration: none;
+      color: var(--text);
+      border: 1px solid var(--border);
+      transition: all 0.25s ease;
+      overflow: hidden;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+    }
+    .card[style]::before { background: var(--card-accent); }
+
+    .card:hover {
+      border-color: var(--border-glow);
+      background: var(--bg-card-hover);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px var(--border-glow);
+    }
+    a.card:hover { color: var(--text); }
+
+    .card-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.6rem;
+    }
+    .card-badge .numeral {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      min-width: 1.4rem;
+    }
+    .card-badge .tag {
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 0.15rem 0.55rem;
+      border-radius: 4px;
+      color: white;
+    }
+
+    .card h3 {
+      font-family: var(--font-display);
+      font-size: 1.02rem;
+      font-weight: 400;
+      color: var(--text-heading);
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      margin-top: 0.5rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .card-list {
+      margin-top: 0.5rem;
+      padding-left: 1.1rem;
+      font-size: 0.84rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .card-list strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+
+    /* Non-interactive cards (domain architecture) */
+    .card-static { cursor: default; }
+    .card-static:hover { transform: none; }
+
+    /* ── Domain architecture numbered cards ── */
+    .domain-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 0.85rem;
+    }
+
+    .domain-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: 6px;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+    .domain-header {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      margin-bottom: 0.55rem;
+    }
+
+    /* ── Callout box ── */
+    .callout {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem 1.6rem;
+      border-radius: 8px;
+      margin-top: 1.5rem;
+    }
+    .callout h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      color: var(--text-heading);
+      margin-bottom: 0.75rem;
+    }
+    .callout ol {
+      padding-left: 1.2rem;
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.75;
+    }
+    .callout ol strong { color: var(--text); font-weight: 500; }
+
+    /* ── AI Tooling section ── */
+    .ai-intro {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem 1.6rem;
+      border-radius: 8px;
+      margin-bottom: 2rem;
+    }
+    .ai-intro h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--text-heading);
+      margin-bottom: 0.65rem;
+    }
+    .ai-intro p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+    .ai-intro p + p { margin-top: 0.5rem; }
+    .ai-intro strong { color: var(--text); font-weight: 500; }
+
+    .sub-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      color: var(--text-heading);
+      margin-bottom: 0.75rem;
+    }
+    .sub-desc {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.25rem;
+    }
+
+    /* ── Phase timeline cards ── */
+    .phase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 0.85rem;
+      margin-bottom: 2rem;
+    }
+    .phase-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.3rem 1.4rem;
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .phase-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+    }
+    .phase-card h4 {
+      font-family: var(--font-display);
+      font-size: 0.98rem;
+      color: var(--text-heading);
+      margin-bottom: 0.55rem;
+    }
+    .phase-card p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .phase-card .phase-result {
+      font-size: 0.8rem;
+      color: var(--text);
+      margin-top: 0.6rem;
+      font-style: italic;
+      opacity: 0.85;
+    }
+
+    /* ── Links bar ── */
+    .links-bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      padding: 1.5rem 2rem;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .links-bar a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      border: 1px solid var(--border);
+      transition: all 0.2s;
+    }
+    .links-bar a:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      background: var(--accent-dim);
+    }
+
+    /* ── Divider ── */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 2rem;
-      color: var(--color-text-muted);
-      font-size: 0.85rem;
-      border-top: 1px solid var(--color-border);
+      padding: 2.5rem 2rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      border-top: 1px solid var(--border);
+      background: var(--bg-surface);
+    }
+    footer strong { color: var(--text); font-weight: 500; }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 3.5rem 1.25rem 2.5rem; }
+      .section { padding: 2.5rem 1.25rem; }
+      .resource-bar { gap: 0.75rem; padding: 1rem; }
+      .domain-grid { grid-template-columns: 1fr; }
+      .grid { grid-template-columns: 1fr; }
+      .phase-grid { grid-template-columns: 1fr; }
     }
 
-    ::-webkit-scrollbar { width: 8px; }
-    ::-webkit-scrollbar-track { background: var(--color-bg); }
-    ::-webkit-scrollbar-thumb { background: #444; border-radius: 4px; }
-    ::-webkit-scrollbar-thumb:hover { background: #555; }
+    @media (max-width: 480px) {
+      .hero h1 { font-size: 1.8rem; }
+      .hero-subtitle { font-size: 0.95rem; }
+      .legend { gap: 0.75rem; }
+    }
 
-    @media (max-width: 600px) {
-      .hero h1 { font-size: 1.5rem; }
-      .hero p { font-size: 0.95rem; }
+    /* ── Staggered animation on scroll ── */
+    .card, .phase-card, .callout, .ai-intro {
+      opacity: 0;
+      transform: translateY(16px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .card.visible, .phase-card.visible, .callout.visible, .ai-intro.visible {
+      opacity: 1;
+      transform: translateY(0);
     }
   </style>
 </head>
 <body>
-  <div class="hero">
-    <div style="font-size: 2.8rem; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.5rem;">Référentiel de Domaine</div>
-    <h1>Interopérabilité et Agentique</h1>
-    <p>Architectures d'Intégration &mdash; Du Couplage Fort au Découplage Maximal</p>
-  </div>
 
-  <div style="text-align: center; padding: 1.25rem 1rem; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
-    <a href="public/Presentation.pdf" style="color: var(--color-link); text-decoration: none;" target="_blank" rel="noopener">Présentation</a>
-    <div style="margin-top: 1rem;">
-      <audio controls preload="none" style="width: 100%; max-width: 480px;">
-        <source src="public/PodCast.m4a" type="audio/mp4">
-      </audio>
+  <!-- ════════ HERO ════════ -->
+  <header class="hero">
+    <div class="hero-network">
+      <svg viewBox="0 0 1200 400" preserveAspectRatio="none">
+        <line x1="100" y1="350" x2="400" y2="80" style="animation-delay:0s"/>
+        <line x1="400" y1="80" x2="700" y2="200" style="animation-delay:0.5s"/>
+        <line x1="700" y1="200" x2="1100" y2="60" style="animation-delay:1s"/>
+        <line x1="200" y1="50" x2="600" y2="300" style="animation-delay:0.3s"/>
+        <line x1="600" y1="300" x2="1000" y2="150" style="animation-delay:0.8s"/>
+        <line x1="900" y1="350" x2="500" y2="120" style="animation-delay:1.2s"/>
+        <circle cx="100" cy="350" r="3"/>
+        <circle cx="400" cy="80" r="3"/>
+        <circle cx="700" cy="200" r="3"/>
+        <circle cx="1100" cy="60" r="3"/>
+        <circle cx="200" cy="50" r="2.5"/>
+        <circle cx="600" cy="300" r="3"/>
+        <circle cx="1000" cy="150" r="2.5"/>
+        <circle cx="900" cy="350" r="2.5"/>
+        <circle cx="500" cy="120" r="3"/>
+      </svg>
     </div>
-  </div>
 
+    <div class="hero-overline">Référentiel de Domaine</div>
+    <h1>Interopérabilité <em>&</em> Agentique</h1>
+    <p class="hero-subtitle">Architectures d'Intégration — Du Couplage Fort au Découplage Maximal</p>
+  </header>
+
+  <!-- ════════ RESOURCE BAR ════════ -->
+  <nav class="resource-bar">
+    <a href="public/Presentation.pdf" class="resource-link" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Présentation
+    </a>
+    <audio controls preload="none">
+      <source src="public/PodCast.m4a" type="audio/mp4">
+    </audio>
+  </nav>
+
+  <!-- ════════ POSTER 1 ════════ -->
   <div class="poster-section">
-    <img src="public/Poster 1.png" alt="Poster 1 — Écosystème et Interopérabilité">
+    <img src="public/Poster 1.png" alt="Poster — L'interopérabilité moderne : De l'entreprise silo à l'écosystème intelligent" loading="lazy">
   </div>
 
-  <div class="container">
-    <h2>Architecture de Domaine</h2>
+  <!-- ════════ ARCHITECTURE DE DOMAINE ════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Méthodologie</div>
+      <h2 class="section-title">Architecture de Domaine</h2>
+    </div>
 
-    <div class="grid">
-      <div class="card" style="border-left: 4px solid #2563eb; cursor: default;">
-        <div class="card-header">
-          <span style="background:#2563eb;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">1</span>
+    <div class="domain-grid">
+      <div class="card card-static" style="--card-accent:#2563eb;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#2563eb;">1</span>
+          <h3>Orienter</h3>
         </div>
-        <h3>Orienter</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">La boussole du domaine. S'assurer que chaque investissement technologique rapproche l'organisation de sa cible d'affaires.</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Vision :</strong> Définir l'état futur du domaine à 2-3 ans.</li>
-          <li><strong style="color:var(--color-text);">Roadmaps :</strong> Séquencer les étapes de transition pour éviter la dette technique.</li>
-          <li><strong style="color:var(--color-text);">Principes :</strong> Établir les lois fondamentales (ex: <em>Cloud First</em>, <em>API First</em>).</li>
+        <p class="card-desc">La boussole du domaine. S'assurer que chaque investissement technologique rapproche l'organisation de sa cible d'affaires.</p>
+        <ul class="card-list">
+          <li><strong>Vision :</strong> Définir l'état futur du domaine à 2-3 ans.</li>
+          <li><strong>Roadmaps :</strong> Séquencer les étapes de transition pour éviter la dette technique.</li>
+          <li><strong>Principes :</strong> Établir les lois fondamentales (ex: <em>Cloud First</em>, <em>API First</em>).</li>
         </ul>
       </div>
 
-      <div class="card" style="border-left: 4px solid #059669; cursor: default;">
-        <div class="card-header">
-          <span style="background:#059669;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">2</span>
+      <div class="card card-static" style="--card-accent:#059669;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#059669;">2</span>
+          <h3>Standardiser</h3>
         </div>
-        <h3>Standardiser</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">Réduire la complexité et la fragmentation pour gagner en agilité et réduire les coûts.</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Normes :</strong> Sélection des technologies et versions supportées.</li>
-          <li><strong style="color:var(--color-text);">Patterns :</strong> Modèles de conception réutilisables (ex: messagerie asynchrone).</li>
-          <li><strong style="color:var(--color-text);">Architecture de Référence :</strong> Blueprints types pour accélérer le démarrage des projets.</li>
+        <p class="card-desc">Réduire la complexité et la fragmentation pour gagner en agilité et réduire les coûts.</p>
+        <ul class="card-list">
+          <li><strong>Normes :</strong> Sélection des technologies et versions supportées.</li>
+          <li><strong>Patterns :</strong> Modèles de conception réutilisables (ex: messagerie asynchrone).</li>
+          <li><strong>Architecture de Référence :</strong> Blueprints types pour accélérer le démarrage des projets.</li>
         </ul>
       </div>
 
-      <div class="card" style="border-left: 4px solid #d97706; cursor: default;">
-        <div class="card-header">
-          <span style="background:#d97706;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">3</span>
+      <div class="card card-static" style="--card-accent:#d97706;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#d97706;">3</span>
+          <h3>Gouverner</h3>
         </div>
-        <h3>Gouverner</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">Assurer la cohérence et la conformité à travers le parc applicatif.</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Revues d'architecture :</strong> Valider que les solutions respectent les standards.</li>
-          <li><strong style="color:var(--color-text);">Décisions :</strong> Arbitrer entre plusieurs options technologiques.</li>
-          <li><strong style="color:var(--color-text);">Exceptions :</strong> Gérer les dérogations de manière documentée et temporaire.</li>
+        <p class="card-desc">Assurer la cohérence et la conformité à travers le parc applicatif.</p>
+        <ul class="card-list">
+          <li><strong>Revues d'architecture :</strong> Valider que les solutions respectent les standards.</li>
+          <li><strong>Décisions :</strong> Arbitrer entre plusieurs options technologiques.</li>
+          <li><strong>Exceptions :</strong> Gérer les dérogations de manière documentée et temporaire.</li>
         </ul>
       </div>
 
-      <div class="card" style="border-left: 4px solid #7c3aed; cursor: default;">
-        <div class="card-header">
-          <span style="background:#7c3aed;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">4</span>
+      <div class="card card-static" style="--card-accent:#7c3aed;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#7c3aed;">4</span>
+          <h3>Accompagner</h3>
         </div>
-        <h3>Accompagner</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">Agir comme un partenaire de confiance pour les équipes de livraison.</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Cadrage :</strong> Définir les besoins non-fonctionnels dès le début du projet.</li>
-          <li><strong style="color:var(--color-text);">Design :</strong> Co-concevoir les solutions complexes.</li>
-          <li><strong style="color:var(--color-text);">Coaching :</strong> Élever la maturité technique des développeurs et analystes.</li>
+        <p class="card-desc">Agir comme un partenaire de confiance pour les équipes de livraison.</p>
+        <ul class="card-list">
+          <li><strong>Cadrage :</strong> Définir les besoins non-fonctionnels dès le début du projet.</li>
+          <li><strong>Design :</strong> Co-concevoir les solutions complexes.</li>
+          <li><strong>Coaching :</strong> Élever la maturité technique des développeurs et analystes.</li>
         </ul>
       </div>
 
-      <div class="card" style="border-left: 4px solid #dc2626; cursor: default;">
-        <div class="card-header">
-          <span style="background:#dc2626;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">5</span>
+      <div class="card card-static" style="--card-accent:#dc2626;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#dc2626;">5</span>
+          <h3>Fiabiliser</h3>
         </div>
-        <h3>Fiabiliser</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">Garantir la robustesse et la pérennité des actifs technologiques.</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Sécurité & Résilience :</strong> Haute disponibilité et protection des données par design.</li>
-          <li><strong style="color:var(--color-text);">Exploitabilité :</strong> Systèmes monitorables et maintenables en production.</li>
+        <p class="card-desc">Garantir la robustesse et la pérennité des actifs technologiques.</p>
+        <ul class="card-list">
+          <li><strong>Sécurité & Résilience :</strong> Haute disponibilité et protection des données par design.</li>
+          <li><strong>Exploitabilité :</strong> Systèmes monitorables et maintenables en production.</li>
         </ul>
       </div>
 
-      <div class="card" style="border-left: 4px solid #0891b2; cursor: default;">
-        <div class="card-header">
-          <span style="background:#0891b2;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">6</span>
+      <div class="card card-static" style="--card-accent:#0891b2;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#0891b2;">6</span>
+          <h3>Optimiser</h3>
         </div>
-        <h3>Optimiser</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);">Maximiser la valeur et minimiser le gaspillage (approche FinOps et cycle de vie).</p>
-        <ul style="margin-top:0.5rem;padding-left:1.2rem;font-size:0.85rem;color:var(--color-text-muted);">
-          <li><strong style="color:var(--color-text);">Gestion des coûts :</strong> Optimiser la consommation Cloud et les licences.</li>
-          <li><strong style="color:var(--color-text);">Lifecycle :</strong> Gérer l'obsolescence des systèmes en fin de vie.</li>
-          <li><strong style="color:var(--color-text);">Fournisseurs :</strong> Évaluer la performance des partenaires technologiques.</li>
+        <p class="card-desc">Maximiser la valeur et minimiser le gaspillage (approche FinOps et cycle de vie).</p>
+        <ul class="card-list">
+          <li><strong>Gestion des coûts :</strong> Optimiser la consommation Cloud et les licences.</li>
+          <li><strong>Lifecycle :</strong> Gérer l'obsolescence des systèmes en fin de vie.</li>
+          <li><strong>Fournisseurs :</strong> Évaluer la performance des partenaires technologiques.</li>
         </ul>
       </div>
     </div>
 
-    <div style="margin-top:1.5rem;background:var(--color-surface);padding:1.25rem;border-radius:8px;border-left:4px solid #60a5fa;">
-      <h3 style="font-size:1rem;color:var(--color-heading);margin-bottom:0.5rem;">Exemple concret : Domaine Interopérabilité</h3>
-      <ol style="padding-left:1.2rem;font-size:0.9rem;color:var(--color-text-muted);">
-        <li><strong style="color:var(--color-text);">Orienter :</strong> Définir une vision <em>API-First</em> à 3 ans pour découpler les systèmes monolithiques et favoriser l'intégration événementielle.</li>
-        <li><strong style="color:var(--color-text);">Standardiser :</strong> Imposer le format JSON/REST pour les APIs synchrones et Avro/CloudEvents pour les flux Kafka asynchrones.</li>
-        <li><strong style="color:var(--color-text);">Gouverner :</strong> Soumettre les interfaces à une revue d'architecture et documenter les décisions dans un ADR (<em>Architecture Decision Record</em>).</li>
-        <li><strong style="color:var(--color-text);">Accompagner :</strong> Fournir des accélérateurs (templates OpenAPI, SDK internes) et coacher les équipes sur les patterns d'intégration.</li>
-        <li><strong style="color:var(--color-text);">Fiabiliser :</strong> Garantir que les échanges entre systèmes sont chiffrés (mTLS), traçables (correlation ID) et résilients (circuit breaker, retry).</li>
-        <li><strong style="color:var(--color-text);">Optimiser :</strong> Identifier les interfaces redondantes pour rationaliser le catalogue d'APIs et optimiser les coûts de transit réseau.</li>
+    <div class="callout">
+      <h3>Exemple concret : Domaine Interopérabilité</h3>
+      <ol>
+        <li><strong>Orienter :</strong> Définir une vision <em>API-First</em> à 3 ans pour découpler les systèmes monolithiques et favoriser l'intégration événementielle.</li>
+        <li><strong>Standardiser :</strong> Imposer le format JSON/REST pour les APIs synchrones et Avro/CloudEvents pour les flux Kafka asynchrones.</li>
+        <li><strong>Gouverner :</strong> Soumettre les interfaces à une revue d'architecture et documenter les décisions dans un ADR (<em>Architecture Decision Record</em>).</li>
+        <li><strong>Accompagner :</strong> Fournir des accélérateurs (templates OpenAPI, SDK internes) et coacher les équipes sur les patterns d'intégration.</li>
+        <li><strong>Fiabiliser :</strong> Garantir que les échanges entre systèmes sont chiffrés (mTLS), traçables (correlation ID) et résilients (circuit breaker, retry).</li>
+        <li><strong>Optimiser :</strong> Identifier les interfaces redondantes pour rationaliser le catalogue d'APIs et optimiser les coûts de transit réseau.</li>
       </ol>
     </div>
-  </div>
+  </section>
 
-  <div class="container">
-    <h2>Intégration - Chapitres</h2>
+  <hr class="divider">
+
+  <!-- ════════ CHAPITRES ════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Publication</div>
+      <h2 class="section-title">Intégration — Chapitres</h2>
+    </div>
 
     <div class="legend">
-      <div class="legend-item"><span class="legend-dot" style="background:#eab308;"></span> Transversal</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#2563eb;"></span> Applications (Le Verbe)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#059669;"></span> Données (Le Nom)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#d97706;"></span> Événements (Le Signal)</div>
-      <div class="legend-item"><span class="legend-dot" style="background:#a855f7;"></span> Volumes</div>
+      <div class="legend-item"><span class="legend-dot" style="color:#eab308;background:#eab308;"></span> Transversal</div>
+      <div class="legend-item"><span class="legend-dot" style="color:#2563eb;background:#2563eb;"></span> Applications (Le Verbe)</div>
+      <div class="legend-item"><span class="legend-dot" style="color:#059669;background:#059669;"></span> Données (Le Nom)</div>
+      <div class="legend-item"><span class="legend-dot" style="color:#d97706;background:#d97706;"></span> Événements (Le Signal)</div>
+      <div class="legend-item"><span class="legend-dot" style="color:#a855f7;background:#a855f7;"></span> Volumes</div>
     </div>
 
     <div class="grid">
 {{CHAPTERS_GRID}}
     </div>
-  </div>
+  </section>
 
-  <div class="container">
-    <h2>Entreprise Agentique - Volumes</h2>
+  <hr class="divider">
 
-    <div class="grid">
+  <!-- ════════ VOLUMES ════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Approfondissement</div>
+      <h2 class="section-title">Entreprise Agentique — Volumes</h2>
+    </div>
+
+    <div class="grid grid-wide">
 {{VOLUMES_GRID}}
     </div>
-  </div>
+  </section>
 
+  <!-- ════════ POSTER 2 ════════ -->
   <div class="poster-section">
-    <img src="public/Poster 2.png" alt="Poster 2 — Écosystème et Interopérabilité">
+    <img src="public/Poster 2.png" alt="Poster — Blueprint d'une Architecture d'Intégration Moderne" loading="lazy">
   </div>
 
-  <div style="text-align: center; padding: 1.25rem 1rem; background: var(--color-surface); border-bottom: 1px solid var(--color-border);">
-    <a href="https://github.com/AndyMik90/Auto-Claude" style="color: var(--color-link); text-decoration: none;" target="_blank" rel="noopener">Auto Claude - Pilotage Agentique</a>
-    <span style="margin: 0 0.75rem; color: var(--color-text-muted);">|</span>
-    <a href="public/Monographie%20-%20Entreprise%20Agentique.pdf" style="color: var(--color-link); text-decoration: none;" target="_blank" rel="noopener">Monographie - Entreprise Agentique</a>
-    <span style="margin: 0 0.75rem; color: var(--color-text-muted);">|</span>
-    <a href="https://github.com/anthropics/skills" style="color: var(--color-link); text-decoration: none;" target="_blank" rel="noopener">Anthropic Skills</a>
-  </div>
+  <!-- ════════ LINKS BAR ════════ -->
+  <nav class="links-bar">
+    <a href="https://github.com/AndyMik90/Auto-Claude" target="_blank" rel="noopener">Auto Claude — Pilotage Agentique</a>
+    <a href="public/Monographie%20-%20Entreprise%20Agentique.pdf" target="_blank" rel="noopener">Monographie — Entreprise Agentique</a>
+    <a href="https://github.com/anthropics/skills" target="_blank" rel="noopener">Anthropic Skills</a>
+  </nav>
 
+  <!-- ════════ POSTER 4 ════════ -->
   <div class="poster-section">
-    <img src="public/Poster 4.jpg" alt="Poster 4 — Écosystème et Interopérabilité">
+    <img src="public/Poster 4.jpg" alt="Poster — Auto Claude : Pilotage Agentique" loading="lazy">
   </div>
 
+  <!-- ════════ POSTER 3 ════════ -->
   <div class="poster-section">
-    <img src="public/Poster 3.png" alt="Poster 3 — Écosystème et Interopérabilité">
+    <img src="public/Poster 3.png" alt="Poster — Environnement de travail" loading="lazy">
   </div>
 
-  <div class="container">
-    <h2>Architecte assisté des outils IA</h2>
-    <p style="font-size:0.95rem;color:var(--color-text-muted);margin-bottom:1.5rem;max-width:52rem;">
-      Document de référence sur la stratégie d'outillage IA — Formalisation de la méthodologie d'<em>Architecte assisté des outils IA</em>.
-    </p>
+  <hr class="divider">
 
-    <!-- Section 1 — Introduction -->
-    <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-left:4px solid #60a5fa;margin-bottom:1.5rem;">
-      <h3 style="font-size:1.05rem;color:var(--color-heading);margin-bottom:0.5rem;">1. Chaîne de Valeur Cognitive</h3>
-      <p style="font-size:0.9rem;color:var(--color-text-muted);">
-        Dans le contexte complexe de l'architecture d'entreprise — particulièrement au sein des secteurs financiers et assurantiels exigeants — la productivité ne se mesure plus à la quantité de code produite, mais à la clarté de la pensée et la robustesse des décisions.
-      </p>
-      <p style="font-size:0.9rem;color:var(--color-text-muted);margin-top:0.5rem;">
-        L'émergence des modèles de langage (LLM) offre une opportunité inédite : non pas remplacer l'architecte, mais <strong style="color:var(--color-text);">l'augmenter</strong> en lui fournissant une équipe virtuelle spécialisée. Cette méthodologie opérationnelle est fondée sur l'orchestration de quatre IA distinctes, alignée sur un cycle de vie Agile (Dual-Track). L'objectif est de transformer une cacophonie d'outils en une symphonie de précision technique.
+  <!-- ════════ ARCHITECTE ASSISTÉ IA ════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Stratégie d'outillage</div>
+      <h2 class="section-title">Architecte assisté des outils IA</h2>
+      <p class="section-desc">
+        Document de référence sur la stratégie d'outillage IA — Formalisation de la méthodologie d'<em>Architecte assisté des outils IA</em>.
       </p>
     </div>
 
-    <!-- Section 2 — Distribution des Rôles -->
-    <h3 style="font-size:1.15rem;color:var(--color-heading);margin-bottom:1rem;">2. Rôles (Casting)</h3>
-    <p style="font-size:0.9rem;color:var(--color-text-muted);margin-bottom:1rem;">Pour éviter la redondance et l'hallucination, chaque IA se voit attribuer un rôle strict, basé sur son architecture sous-jacente et ses super-pouvoirs spécifiques.</p>
+    <!-- 1. Chaîne de Valeur Cognitive -->
+    <div class="ai-intro">
+      <h3>1. Chaîne de Valeur Cognitive</h3>
+      <p>Dans le contexte complexe de l'architecture d'entreprise — particulièrement au sein des secteurs financiers et assurantiels exigeants — la productivité ne se mesure plus à la quantité de code produite, mais à la clarté de la pensée et la robustesse des décisions.</p>
+      <p>L'émergence des modèles de langage (LLM) offre une opportunité inédite : non pas remplacer l'architecte, mais <strong>l'augmenter</strong> en lui fournissant une équipe virtuelle spécialisée. Cette méthodologie opérationnelle est fondée sur l'orchestration de quatre IA distinctes, alignée sur un cycle de vie Agile (Dual-Track). L'objectif est de transformer une cacophonie d'outils en une symphonie de précision technique.</p>
+    </div>
 
-    <div class="grid" style="margin-bottom:1.5rem;">
-      <div class="card" style="border-left: 4px solid #06b6d4; cursor: default;">
-        <div class="card-header">
-          <span style="background:#06b6d4;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Éclaireur</span>
+    <!-- 2. Rôles -->
+    <h3 class="sub-title">2. Rôles (Casting)</h3>
+    <p class="sub-desc">Pour éviter la redondance et l'hallucination, chaque IA se voit attribuer un rôle strict, basé sur son architecture sous-jacente et ses super-pouvoirs spécifiques.</p>
+
+    <div class="grid" style="margin-bottom:2rem;">
+      <div class="card card-static" style="--card-accent:#06b6d4;">
+        <div class="card-badge">
+          <span class="tag" style="background:#06b6d4;">Éclaireur</span>
         </div>
         <h3>Perplexity Pro — The Scout</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);"><strong style="color:var(--color-text);">Fonction :</strong> Validation factuelle et ancrage dans le réel.</p>
-        <p style="margin-top:0.35rem;font-size:0.85rem;color:var(--color-text-muted);">Il est interdit de l'utiliser pour la création pure. Il sert exclusivement à la recherche de l'état de l'art, la validation de normes (ex: ISO, IEEE) et la veille technologique en temps réel. Il est le gardien de la vérité externe.</p>
+        <p class="card-desc"><strong>Fonction :</strong> Validation factuelle et ancrage dans le réel.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">Il est interdit de l'utiliser pour la création pure. Il sert exclusivement à la recherche de l'état de l'art, la validation de normes (ex: ISO, IEEE) et la veille technologique en temps réel. Il est le gardien de la vérité externe.</p>
       </div>
 
-      <div class="card" style="border-left: 4px solid #f59e0b; cursor: default;">
-        <div class="card-header">
-          <span style="background:#f59e0b;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Stratège</span>
+      <div class="card card-static" style="--card-accent:#f59e0b;">
+        <div class="card-badge">
+          <span class="tag" style="background:#f59e0b;">Stratège</span>
         </div>
         <h3>Gemini Pro — The Strategist</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);"><strong style="color:var(--color-text);">Fonction :</strong> Synthèse systémique et critique.</p>
-        <p style="margin-top:0.35rem;font-size:0.85rem;color:var(--color-text-muted);">Grâce à sa fenêtre de contexte massive, il ingère des corpus entiers. Il excelle dans le raisonnement "First Principles", l'identification de goulots d'étranglement et joue le rôle de "Red Team" pour contester nos propres architectures.</p>
+        <p class="card-desc"><strong>Fonction :</strong> Synthèse systémique et critique.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">Grâce à sa fenêtre de contexte massive, il ingère des corpus entiers. Il excelle dans le raisonnement "First Principles", l'identification de goulots d'étranglement et joue le rôle de "Red Team" pour contester nos propres architectures.</p>
       </div>
 
-      <div class="card" style="border-left: 4px solid #a855f7; cursor: default;">
-        <div class="card-header">
-          <span style="background:#a855f7;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Expert</span>
+      <div class="card card-static" style="--card-accent:#a855f7;">
+        <div class="card-badge">
+          <span class="tag" style="background:#a855f7;">Expert</span>
         </div>
         <h3>Claude Max — The Staff Engineer</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);"><strong style="color:var(--color-text);">Fonction :</strong> Conception structurelle et codage de précision.</p>
-        <p style="margin-top:0.35rem;font-size:0.85rem;color:var(--color-text-muted);">C'est le moteur de production intellectuelle. Il rédige les documents complexes, génère le code idiomatique et produit les artefacts visuels (PlantUML, Mermaid). Il est garant de la cohérence logique.</p>
+        <p class="card-desc"><strong>Fonction :</strong> Conception structurelle et codage de précision.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">C'est le moteur de production intellectuelle. Il rédige les documents complexes, génère le code idiomatique et produit les artefacts visuels (PlantUML, Mermaid). Il est garant de la cohérence logique.</p>
       </div>
 
-      <div class="card" style="border-left: 4px solid #10b981; cursor: default;">
-        <div class="card-header">
-          <span style="background:#10b981;color:white;padding:0.2rem 0.6rem;border-radius:12px;font-size:0.75rem;font-weight:600;">Facilitateur</span>
+      <div class="card card-static" style="--card-accent:#10b981;">
+        <div class="card-badge">
+          <span class="tag" style="background:#10b981;">Facilitateur</span>
         </div>
         <h3>Copilot 365 — The Diplomat</h3>
-        <p style="margin-top:0.5rem;font-size:0.9rem;color:var(--color-text-muted);"><strong style="color:var(--color-text);">Fonction :</strong> Intégration organisationnelle.</p>
-        <p style="margin-top:0.35rem;font-size:0.85rem;color:var(--color-text-muted);">Il traduit la complexité technique en langage d'entreprise. Il transforme les spécifications en présentations exécutives, résume les réunions et assure l'intégration dans l'écosystème Microsoft.</p>
+        <p class="card-desc"><strong>Fonction :</strong> Intégration organisationnelle.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">Il traduit la complexité technique en langage d'entreprise. Il transforme les spécifications en présentations exécutives, résume les réunions et assure l'intégration dans l'écosystème Microsoft.</p>
       </div>
     </div>
 
-    <!-- Section 3 — Processus Opérationnel -->
-    <h3 style="font-size:1.15rem;color:var(--color-heading);margin-bottom:1rem;">3. Processus</h3>
-    <p style="font-size:0.9rem;color:var(--color-text-muted);margin-bottom:1rem;">Cette stratégie s'applique à travers les quatre phases du cycle de résolution de problèmes, assurant une transition fluide entre la découverte (Discovery) et la livraison (Delivery).</p>
+    <!-- 3. Processus -->
+    <h3 class="sub-title">3. Processus</h3>
+    <p class="sub-desc">Cette stratégie s'applique à travers les quatre phases du cycle de résolution de problèmes, assurant une transition fluide entre la découverte (Discovery) et la livraison (Delivery).</p>
 
-    <div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));gap:1rem;margin-bottom:1.5rem;">
-      <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-top:3px solid #06b6d4;">
-        <h4 style="font-size:0.95rem;color:var(--color-heading);margin-bottom:0.5rem;">Phase I — Idéation (Divergence)</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);">L'architecte initie le cycle avec <strong style="color:#f59e0b;">Gemini</strong> pour déconstruire le problème en composantes fondamentales. <strong style="color:#06b6d4;">Perplexity</strong> vérifie si ces problèmes ont déjà été résolus ailleurs dans l'industrie.</p>
-        <p style="font-size:0.8rem;color:var(--color-text);margin-top:0.5rem;font-style:italic;">Résultat : Un énoncé de problème validé et contextuellement riche.</p>
+    <div class="phase-grid">
+      <div class="phase-card" style="--phase-color:#06b6d4;">
+        <style>.phase-card[style*="06b6d4"]::before{background:#06b6d4;}</style>
+        <h4>Phase I — Idéation (Divergence)</h4>
+        <p>L'architecte initie le cycle avec <strong style="color:#f59e0b;">Gemini</strong> pour déconstruire le problème en composantes fondamentales. <strong style="color:#06b6d4;">Perplexity</strong> vérifie si ces problèmes ont déjà été résolus ailleurs dans l'industrie.</p>
+        <p class="phase-result">Résultat : Un énoncé de problème validé et contextuellement riche.</p>
       </div>
 
-      <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-top:3px solid #f59e0b;">
-        <h4 style="font-size:0.95rem;color:var(--color-heading);margin-bottom:0.5rem;">Phase II — Analyse (Convergence)</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);">Les spécifications sont passées à <strong style="color:#a855f7;">Claude</strong> pour structurer les NFR. <strong style="color:#06b6d4;">Perplexity</strong> effectue l'analyse FinOps. <strong style="color:#f59e0b;">Gemini</strong> croise les exigences avec l'architecture existante.</p>
-        <p style="font-size:0.8rem;color:var(--color-text);margin-top:0.5rem;font-style:italic;">Résultat : Un document de cadrage technique et budgétaire robuste.</p>
+      <div class="phase-card" style="--phase-color:#f59e0b;">
+        <style>.phase-card[style*="f59e0b"]::before{background:#f59e0b;}</style>
+        <h4>Phase II — Analyse (Convergence)</h4>
+        <p>Les spécifications sont passées à <strong style="color:#a855f7;">Claude</strong> pour structurer les NFR. <strong style="color:#06b6d4;">Perplexity</strong> effectue l'analyse FinOps. <strong style="color:#f59e0b;">Gemini</strong> croise les exigences avec l'architecture existante.</p>
+        <p class="phase-result">Résultat : Un document de cadrage technique et budgétaire robuste.</p>
       </div>
 
-      <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-top:3px solid #a855f7;">
-        <h4 style="font-size:0.95rem;color:var(--color-heading);margin-bottom:0.5rem;">Phase III — Conception (Architecture)</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);"><strong style="color:#a855f7;">Claude</strong> génère les diagrammes C4 via PlantUML et rédige les ADR. Chaque décision est soumise à <strong style="color:#f59e0b;">Gemini</strong> pour un Red Teaming impitoyable : boucle itérative vers la résilience maximale.</p>
-        <p style="font-size:0.8rem;color:var(--color-text);margin-top:0.5rem;font-style:italic;">Résultat : Un Dossier d'Architecture Technique complet et pré-validé.</p>
+      <div class="phase-card" style="--phase-color:#a855f7;">
+        <style>.phase-card[style*="a855f7"]::before{background:#a855f7;}</style>
+        <h4>Phase III — Conception (Architecture)</h4>
+        <p><strong style="color:#a855f7;">Claude</strong> génère les diagrammes C4 via PlantUML et rédige les ADR. Chaque décision est soumise à <strong style="color:#f59e0b;">Gemini</strong> pour un Red Teaming impitoyable : boucle itérative vers la résilience maximale.</p>
+        <p class="phase-result">Résultat : Un Dossier d'Architecture Technique complet et pré-validé.</p>
       </div>
 
-      <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-top:3px solid #10b981;">
-        <h4 style="font-size:0.95rem;color:var(--color-heading);margin-bottom:0.5rem;">Phase IV — Build (Réalisation)</h4>
-        <p style="font-size:0.85rem;color:var(--color-text-muted);"><strong style="color:#a855f7;">Claude</strong> produit les squelettes de code et les tests unitaires. <strong style="color:#10b981;">Copilot</strong> transforme les ADR en pages Confluence/SharePoint, génère les supports de formation et prépare les diapositives.</p>
-        <p style="font-size:0.8rem;color:var(--color-text);margin-top:0.5rem;font-style:italic;">Résultat : Une solution technique documentée, prête pour le déploiement.</p>
+      <div class="phase-card" style="--phase-color:#10b981;">
+        <style>.phase-card[style*="10b981"]::before{background:#10b981;}</style>
+        <h4>Phase IV — Build (Réalisation)</h4>
+        <p><strong style="color:#a855f7;">Claude</strong> produit les squelettes de code et les tests unitaires. <strong style="color:#10b981;">Copilot</strong> transforme les ADR en pages Confluence/SharePoint, génère les supports de formation et prépare les diapositives.</p>
+        <p class="phase-result">Résultat : Une solution technique documentée, prête pour le déploiement.</p>
       </div>
     </div>
 
-    <!-- Section 4 — Conclusion -->
-    <div style="background:var(--color-surface);padding:1.25rem;border-radius:8px;border-left:4px solid #a855f7;">
-      <h3 style="font-size:1.05rem;color:var(--color-heading);margin-bottom:0.5rem;">4. Conclusion</h3>
-      <p style="font-size:0.9rem;color:var(--color-text-muted);">
+    <!-- 4. Conclusion -->
+    <div class="callout" style="border-left-color:#a855f7;">
+      <h3>4. Conclusion</h3>
+      <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;">
         L'utilisation isolée d'une IA générative produit souvent du contenu générique. L'orchestration stratégique de <strong style="color:#06b6d4;">Perplexity</strong>, <strong style="color:#f59e0b;">Gemini</strong>, <strong style="color:#a855f7;">Claude</strong> et <strong style="color:#10b981;">Copilot</strong> crée une chaîne de valeur où chaque outil compense les faiblesses de l'autre.
       </p>
-      <p style="font-size:0.9rem;color:var(--color-text-muted);margin-top:0.5rem;">
-        Pour l'architecte de domaine, cette approche ne vise pas à travailler plus vite, mais à <strong style="color:var(--color-text);">penser plus profondément</strong>. Elle permet de passer plus de temps sur l'intention et le design, et moins sur la syntaxe et la mise en forme. C'est le fondement de l'ingénierie augmentée.
+      <p style="font-size:0.9rem;color:var(--text-muted);margin-top:0.5rem;line-height:1.7;">
+        Pour l'architecte de domaine, cette approche ne vise pas à travailler plus vite, mais à <strong style="color:var(--text);">penser plus profondément</strong>. Elle permet de passer plus de temps sur l'intention et le design, et moins sur la syntaxe et la mise en forme. C'est le fondement de l'ingénierie augmentée.
       </p>
     </div>
-  </div>
+  </section>
 
+  <!-- ════════ FOOTER ════════ -->
   <footer>
-    &copy; 2026 — Interopérabilité et Agentique — André-Guy Bruneau M.Sc. IT
+    &copy; 2026 — <strong>Interopérabilité et Agentique</strong> — André-Guy Bruneau M.Sc. IT
   </footer>
+
+  <!-- ════════ SCROLL REVEAL ════════ -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const targets = document.querySelectorAll('.card, .phase-card, .callout, .ai-intro');
+      if (!('IntersectionObserver' in window)) {
+        targets.forEach(el => el.classList.add('visible'));
+        return;
+      }
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            const siblings = Array.from(entry.target.parentElement.children);
+            const idx = siblings.indexOf(entry.target);
+            entry.target.style.transitionDelay = `${idx * 0.06}s`;
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+      targets.forEach(el => observer.observe(el));
+    });
+  </script>
 </body>
 </html>
