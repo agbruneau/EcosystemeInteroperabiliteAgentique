@@ -913,7 +913,7 @@
     <div class="ai-intro">
       <h3>1. Chaîne de Valeur Cognitive</h3>
       <p>Dans le contexte complexe de l'architecture d'entreprise — particulièrement au sein des secteurs financiers et assurantiels exigeants — la productivité ne se mesure plus à la quantité de code produite, mais à la clarté de la pensée et la robustesse des décisions.</p>
-      <p>L'émergence des modèles de langage (LLM) offre une opportunité inédite : non pas remplacer l'architecte, mais <strong>l'augmenter</strong> en lui fournissant une équipe virtuelle spécialisée. Cette méthodologie opérationnelle est fondée sur l'orchestration de quatre IA distinctes, alignée sur un cycle de vie Agile (Dual-Track). L'objectif est de transformer une cacophonie d'outils en une symphonie de précision technique.</p>
+      <p>L'émergence des modèles de langage (LLM) offre une opportunité inédite : non pas remplacer l'architecte, mais <strong>l'augmenter</strong> en lui fournissant une équipe virtuelle spécialisée. Cette méthodologie opérationnelle est fondée sur l'orchestration de six IA distinctes, alignée sur un cycle de vie Agile (Dual-Track). L'objectif est de transformer une cacophonie d'outils en une symphonie de précision technique.</p>
     </div>
 
     <!-- 2. Rôles -->
@@ -955,6 +955,24 @@
         <p class="card-desc"><strong>Fonction :</strong> Développement agentique en contexte.</p>
         <p class="card-desc" style="margin-top:0.3rem;">IDE agentique propulsé par l'IA. Il comprend la base de code dans son intégralité, orchestre des modifications multi-fichiers et accélère le cycle d'implémentation. Il transforme l'intention architecturale en code de production avec une conscience contextuelle inégalée.</p>
       </div>
+
+      <div class="card card-static" style="--card-accent:#ec4899;">
+        <div class="card-badge">
+          <span class="tag" style="background:#ec4899;">Synthétiseur</span>
+        </div>
+        <h3>NotebookLM — The Librarian</h3>
+        <p class="card-desc"><strong>Fonction :</strong> Synthèse documentaire et assimilation de sources.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">Il ingère des corpus de documents (PDF, articles, notes) et en extrait une compréhension structurée. Il excelle dans la création de briefings, la génération de FAQ à partir de sources multiples et la production de podcasts synthétiques. Il est le bibliothécaire augmenté de l'architecte.</p>
+      </div>
+
+      <div class="card card-static" style="--card-accent:#ef4444;">
+        <div class="card-badge">
+          <span class="tag" style="background:#ef4444;">Penseur</span>
+        </div>
+        <h3>Gemini Deep Think — The Philosopher</h3>
+        <p class="card-desc"><strong>Fonction :</strong> Raisonnement profond et résolution de problèmes complexes.</p>
+        <p class="card-desc" style="margin-top:0.3rem;">Mode de raisonnement avancé de Gemini, il décompose les problèmes les plus ardus en étapes logiques explicites. Il excelle dans l'analyse de compromis architecturaux, la vérification formelle de raisonnements et la résolution de dilemmes techniques où l'intuition seule ne suffit pas.</p>
+      </div>
     </div>
 
     <!-- 3. Processus -->
@@ -964,29 +982,29 @@
       <div class="phase-card" style="--phase-color:#06b6d4;">
         <style>.phase-card[style*="06b6d4"]::before{background:#06b6d4;}</style>
         <h4>Phase I — Idéation (Divergence)</h4>
-        <p>L'architecte initie le cycle avec <strong style="color:#f59e0b;">Gemini</strong> pour déconstruire le problème en composantes fondamentales. <strong style="color:#06b6d4;">Perplexity</strong> vérifie si ces problèmes ont déjà été résolus ailleurs dans l'industrie.</p>
-        <p class="phase-result">Résultat : Un énoncé de problème validé et contextuellement riche.</p>
+        <p><strong style="color:#ec4899;">NotebookLM</strong> ingère le corpus documentaire existant (normes, ADR précédents, retours d'expérience) et produit un briefing structuré. L'architecte initie ensuite le cycle avec <strong style="color:#f59e0b;">Gemini</strong> pour déconstruire le problème en composantes fondamentales. <strong style="color:#06b6d4;">Perplexity</strong> vérifie si ces problèmes ont déjà été résolus ailleurs dans l'industrie.</p>
+        <p class="phase-result">Résultat : Un énoncé de problème validé, contextuellement riche et ancré dans le corpus existant.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#f59e0b;">
         <style>.phase-card[style*="f59e0b"]::before{background:#f59e0b;}</style>
         <h4>Phase II — Analyse (Convergence)</h4>
-        <p>Les spécifications sont passées à <strong style="color:#a855f7;">Claude</strong> pour structurer les NFR. <strong style="color:#06b6d4;">Perplexity</strong> effectue l'analyse FinOps. <strong style="color:#f59e0b;">Gemini</strong> croise les exigences avec l'architecture existante.</p>
-        <p class="phase-result">Résultat : Un document de cadrage technique et budgétaire robuste.</p>
+        <p>Les spécifications sont passées à <strong style="color:#a855f7;">Claude</strong> pour structurer les NFR. <strong style="color:#06b6d4;">Perplexity</strong> effectue l'analyse FinOps. <strong style="color:#f59e0b;">Gemini</strong> croise les exigences avec l'architecture existante. <strong style="color:#ef4444;">Gemini Deep Think</strong> est mobilisé pour le raisonnement profond sur les contraintes croisées et les compromis non triviaux entre exigences concurrentes.</p>
+        <p class="phase-result">Résultat : Un document de cadrage technique et budgétaire robuste, avec une analyse formelle des compromis.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#a855f7;">
         <style>.phase-card[style*="a855f7"]::before{background:#a855f7;}</style>
         <h4>Phase III — Conception (Architecture)</h4>
-        <p><strong style="color:#a855f7;">Claude</strong> génère les diagrammes C4 via PlantUML et rédige les ADR. Chaque décision est soumise à <strong style="color:#f59e0b;">Gemini</strong> pour un Red Teaming impitoyable : boucle itérative vers la résilience maximale.</p>
-        <p class="phase-result">Résultat : Un Dossier d'Architecture Technique complet et pré-validé.</p>
+        <p><strong style="color:#a855f7;">Claude</strong> génère les diagrammes C4 via PlantUML et rédige les ADR. Chaque décision est soumise à <strong style="color:#f59e0b;">Gemini</strong> pour un Red Teaming impitoyable. <strong style="color:#ef4444;">Gemini Deep Think</strong> intervient pour la vérification formelle des raisonnements architecturaux et la résolution des dilemmes où plusieurs patterns s'affrontent : boucle itérative vers la résilience maximale.</p>
+        <p class="phase-result">Résultat : Un Dossier d'Architecture Technique complet, pré-validé et logiquement vérifié.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#10b981;">
         <style>.phase-card[style*="10b981"]::before{background:#10b981;}</style>
         <h4>Phase IV — Build (Réalisation)</h4>
-        <p><strong style="color:#a855f7;">Claude</strong> produit les squelettes de code et les tests unitaires. <strong style="color:#10b981;">Cursor</strong> orchestre l'implémentation multi-fichiers en contexte, accélère le refactoring et assure la cohérence de la base de code.</p>
-        <p class="phase-result">Résultat : Une solution technique documentée, prête pour le déploiement.</p>
+        <p><strong style="color:#a855f7;">Claude</strong> produit les squelettes de code et les tests unitaires. <strong style="color:#10b981;">Cursor</strong> orchestre l'implémentation multi-fichiers en contexte, accélère le refactoring et assure la cohérence de la base de code. <strong style="color:#ec4899;">NotebookLM</strong> synthétise la documentation finale à partir du code, des ADR et des spécifications pour produire des guides d'onboarding et des FAQ destinés aux équipes.</p>
+        <p class="phase-result">Résultat : Une solution technique documentée, accompagnée de sa base de connaissances, prête pour le déploiement.</p>
       </div>
     </div>
 
@@ -994,7 +1012,7 @@
     <div class="callout" style="border-left-color:#a855f7;">
       <h3>4. Conclusion</h3>
       <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;">
-        L'utilisation isolée d'une IA générative produit souvent du contenu générique. L'orchestration stratégique de <strong style="color:#06b6d4;">Perplexity</strong>, <strong style="color:#f59e0b;">Gemini</strong>, <strong style="color:#a855f7;">Claude</strong> et <strong style="color:#10b981;">Cursor</strong> crée une chaîne de valeur où chaque outil compense les faiblesses de l'autre.
+        L'utilisation isolée d'une IA générative produit souvent du contenu générique. L'orchestration stratégique de <strong style="color:#06b6d4;">Perplexity</strong>, <strong style="color:#f59e0b;">Gemini</strong>, <strong style="color:#a855f7;">Claude</strong>, <strong style="color:#10b981;">Cursor</strong>, <strong style="color:#ec4899;">NotebookLM</strong> et <strong style="color:#ef4444;">Gemini Deep Think</strong> crée une chaîne de valeur où chaque outil compense les faiblesses de l'autre.
       </p>
       <p style="font-size:0.9rem;color:var(--text-muted);margin-top:0.5rem;line-height:1.7;">
         Pour l'architecte de domaine, cette approche ne vise pas à travailler plus vite, mais à <strong style="color:var(--text);">penser plus profondément</strong>. Elle permet de passer plus de temps sur l'intention et le design, et moins sur la syntaxe et la mise en forme. C'est le fondement de l'ingénierie augmentée.
