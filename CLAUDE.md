@@ -101,7 +101,7 @@ No test or lint commands. No CI/CD pipeline — deploy by pushing generated `doc
   - `color`: Hex color for the category
   - `badge` (optional): Label shown on cards
   - `type` (optional): `"volume"` for consolidated volumes
-- **`templates/index.html`** — Homepage template. Placeholders: `{{CHAPTERS_GRID}}`, `{{VOLUMES_GRID}}`. Contains hero section, resource links (PDF, podcast), poster sections. Google Fonts: DM Serif Display + DM Sans.
+- **`templates/index.html`** — Homepage template. Placeholder: `{{CHAPTERS_GRID}}`. Contains hero section, resource links (PDF, podcast), poster sections, interoperability levels, AI tooling section. Google Fonts: DM Serif Display + DM Sans.
 - **`templates/chapter.html`** — Content page template. Placeholders: `{{TITLE}}`, `{{SIDEBAR}}`, `{{CONTENT}}`, `{{PREV_LINK}}`, `{{NEXT_LINK}}`. Two-column layout with sticky sidebar TOC.
 - **`docs/`** — Generated output, committed to repo for GitHub Pages. Do not edit manually.
 - **`public/`** — Source static assets (PDF, podcast M4A, poster PNGs/JPG). Copied to `docs/public/` during build.

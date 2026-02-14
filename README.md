@@ -45,7 +45,7 @@ Apache Kafka, RabbitMQ, Apache Pulsar, Apache Iceberg, PostgreSQL, MongoDB, Clic
 ## Structure du projet
 
 ```
-├── Chapitres/              # Fichiers sources Markdown (12 chapitres + 5 volumes + annexes)
+├── Chapitres-Volumes/      # Fichiers sources Markdown (11 chapitres + annexes + 5 volumes)
 ├── templates/              # Templates HTML (accueil et chapitres)
 ├── chapters.json           # Métadonnées des chapitres et volumes (titres, slugs, catégories)
 ├── build.js                # Script de génération des pages HTML
@@ -111,22 +111,24 @@ Puis ouvrir http://localhost:3000 dans le navigateur.
 
 ## Architecte assisté des outils IA
 
-La page d'accueil inclut un document de référence sur la stratégie d'outillage IA, structuré autour de quatre rôles spécialisés et un processus en quatre phases.
+La page d'accueil inclut un document de référence sur la stratégie d'outillage IA, structuré autour de six rôles spécialisés et un processus en six phases.
 
 ### Rôles (Casting)
 
 | Rôle | Outil | Fonction |
 | ---- | ----- | -------- |
-| Éclaireur | Perplexity Pro | Validation factuelle, veille technologique, ancrage dans le réel |
+| Explorateur | Perplexity Pro | Validation factuelle, veille technologique, ancrage dans le réel |
 | Stratège | Gemini Pro | Synthèse systémique, raisonnement First Principles, Red Teaming |
 | Expert | Claude Max | Conception structurelle, codage de précision, artefacts visuels |
-| Facilitateur | Copilot 365 | Intégration organisationnelle, traduction en langage d'entreprise |
+| Bâtisseur | Cursor | Développement agentique en contexte, implémentation multi-fichiers |
+| Synthétiseur | NotebookLM | Synthèse documentaire, assimilation de sources, podcasts synthétiques |
+| Penseur | Gemini Deep Think | Raisonnement profond, vérification formelle, résolution de dilemmes |
 
 ### Processus
 
 1. **Immersion (Contexte)** — Ingestion du corpus documentaire et briefing structuré (NotebookLM)
 2. **Idéation (Divergence)** — Déconstruction du problème (Gemini) et validation externe (Perplexity)
-3. **Analyse (Convergence)** — Structuration des NFR (Claude), analyse FinOps (Perplexity), croisement avec l'existant (Gemini), raisonnement profond (Gemini Deep Think)
+3. **Inception (Convergence)** — Structuration des NFR (Claude), analyse FinOps (Perplexity), croisement avec l'existant (Gemini), raisonnement profond (Gemini Deep Think)
 4. **Conception (Architecture)** — Diagrammes C4 et ADR (Claude), Red Teaming (Gemini), vérification formelle (Gemini Deep Think)
 5. **Réalisation (Build)** — Code et tests (Claude), implémentation multi-fichiers (Cursor), revues croisées (Claude/Gemini)
 6. **Capitalisation (Transfert)** — Documentation finale et guides d'onboarding (NotebookLM), validation de cohérence (Gemini Deep Think)
@@ -135,10 +137,11 @@ La page d'accueil inclut un document de référence sur la stratégie d'outillag
 
 La page d'accueil donne accès aux ressources suivantes :
 
-- **[Présentation (PDF)](https://agbruneau.github.io/InteroperabiliteAgentique/public/Presentation.pdf)** — Diaporama synthétique du contenu
+- **[Interopérabilité (PDF)](https://agbruneau.github.io/InteroperabiliteAgentique/public/Integration.pdf)** — Présentation sur l'intégration
+- **[Agentique (PDF)](https://agbruneau.github.io/InteroperabiliteAgentique/public/Agentique.pdf)** — Présentation sur l'entreprise agentique
 - **[Monographie — L'Entreprise Agentique (PDF)](https://agbruneau.github.io/InteroperabiliteAgentique/public/Monographie%20-%20Entreprise%20Agentique.pdf)** — Monographie complète sur l'entreprise agentique
 - **[Podcast (M4A)](https://agbruneau.github.io/InteroperabiliteAgentique/public/PodCast.m4a)** — Version audio de la présentation
-- **Posters** — Blueprints de l'Entreprise Moderne (Poster 1, Poster 2, Poster 3 et Poster 4)
+- **Posters** — Blueprints de l'Entreprise Moderne (Poster 1 à 5)
 
 ## Projets connexes
 
@@ -147,7 +150,7 @@ La page d'accueil donne accès aux ressources suivantes :
 
 ## Modifier le contenu
 
-1. Modifier le fichier Markdown correspondant dans `Chapitres/`
+1. Modifier le fichier Markdown correspondant dans `Chapitres-Volumes/`
 2. Si un nouveau chapitre est ajouté, mettre à jour `chapters.json`
 3. Régénérer les pages HTML : `npm run build`
 4. Commiter les fichiers sources et le répertoire `docs/`, puis pousser sur `master`
