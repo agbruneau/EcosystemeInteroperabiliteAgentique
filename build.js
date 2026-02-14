@@ -56,9 +56,8 @@ function slugify(text) {
     .replace(/^-|-$/g, '');
 }
 
-// Séparer les chapitres normaux des volumes
+// Exclure les volumes (type: "volume") de la génération
 const normalChapters = chapters.filter(c => c.type !== 'volume');
-const volumes = chapters.filter(c => c.type === 'volume');
 
 // --- Générer la page d'accueil ---
 
@@ -76,25 +75,18 @@ function buildCardHtml(ch) {
 }
 
 const chaptersGridHtml = normalChapters.map(buildCardHtml).join('\n\n');
-const volumesGridHtml = volumes.map(buildCardHtml).join('\n\n');
 
 const indexHtml = indexTemplate
-  .replace('{{CHAPTERS_GRID}}', chaptersGridHtml)
-  .replace('{{VOLUMES_GRID}}', volumesGridHtml);
+  .replace('{{CHAPTERS_GRID}}', chaptersGridHtml);
 
 fs.writeFileSync(path.join(DOCS_DIR, 'index.html'), indexHtml, 'utf8');
 console.log('index.html généré');
 
 // --- Générer les pages de chapitres ---
 
-// Déterminer les groupes de navigation (chapitres normaux et volumes séparément)
-function buildNavGroups() {
-  return [normalChapters, volumes];
-}
+const navGroups = [normalChapters];
 
-const navGroups = buildNavGroups();
-
-for (const ch of chapters) {
+for (const ch of normalChapters) {
   const mdPath = path.join(CHAPTERS_DIR, ch.source);
   if (!fs.existsSync(mdPath)) {
     console.warn(`ATTENTION: ${ch.source} introuvable, ignoré`);

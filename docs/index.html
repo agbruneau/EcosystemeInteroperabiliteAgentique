@@ -882,6 +882,79 @@
     </div>
   </section>
 
+  <hr class="divider">
+
+  <!-- ════════ NIVEAUX D'INTEROPÉRABILITÉ ════════ -->
+  <section class="section">
+    <div class="section-header">
+      <div class="section-label">Fondements</div>
+      <h2 class="section-title">Niveaux d'Interopérabilité</h2>
+      <p class="section-desc">Les niveaux d'interopérabilité décrivent « jusqu'où » des systèmes et des organisations peuvent réellement fonctionner ensemble : du simple transport de bits jusqu'à l'alignement juridique et organisationnel.</p>
+    </div>
+
+    <div class="domain-grid">
+      <div class="card card-static" style="--card-accent:#2563eb;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#2563eb;">1</span>
+          <h3>Technique</h3>
+        </div>
+        <p class="card-desc">Capacité des systèmes à échanger des données via des protocoles et infrastructures compatibles (réseaux, sécurité, middleware, API, messages, fichiers).</p>
+        <ul class="card-list">
+          <li><strong>Périmètre :</strong> Formats de transport, connectivité, chiffrement, authentification.</li>
+          <li><strong>Limite :</strong> Aucune garantie sur la <em>structure</em> ni le <em>sens</em> de la donnée.</li>
+        </ul>
+      </div>
+
+      <div class="card card-static" style="--card-accent:#0891b2;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#0891b2;">2</span>
+          <h3>Structurelle / Syntaxique</h3>
+        </div>
+        <p class="card-desc">Assure que les données échangées respectent une structure convenue (schéma, format, contraintes de type), afin qu'elles puissent être parsées et validées de manière fiable.</p>
+        <ul class="card-list">
+          <li><strong>Exemples :</strong> XML/JSON + schémas, messages FHIR, EDI.</li>
+          <li><strong>Limite :</strong> On sait où se trouvent les champs, mais pas encore si l'on partage le même <em>vocabulaire métier</em>.</li>
+        </ul>
+      </div>
+
+      <div class="card card-static" style="--card-accent:#059669;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#059669;">3</span>
+          <h3>Sémantique</h3>
+        </div>
+        <p class="card-desc">Garantit que la signification des données est comprise de façon identique par les systèmes et les humains qui les consomment.</p>
+        <ul class="card-list">
+          <li><strong>Leviers :</strong> Vocabulaires partagés, ontologies, modèles métier et codes standardisés.</li>
+          <li><strong>Objectif :</strong> Éliminer les ambiguïtés d'interprétation (référentiels, glossaires, terminologies).</li>
+        </ul>
+      </div>
+
+      <div class="card card-static" style="--card-accent:#d97706;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#d97706;">4</span>
+          <h3>Organisationnelle</h3>
+        </div>
+        <p class="card-desc">Concerne l'alignement des processus métier, rôles, responsabilités, politiques et objectifs entre organisations ou unités.</p>
+        <ul class="card-list">
+          <li><strong>Moyens :</strong> Accords de service, procédures communes, gouvernance partagée.</li>
+          <li><strong>Objectif :</strong> Rendre l'exploitation conjointe réellement efficace.</li>
+        </ul>
+      </div>
+
+      <div class="card card-static" style="--card-accent:#dc2626;">
+        <div class="domain-header">
+          <span class="domain-num" style="background:#dc2626;">5</span>
+          <h3>Juridique</h3>
+        </div>
+        <p class="card-desc">Mise en cohérence des cadres légaux et réglementaires : protection des données, archivage, responsabilité, signatures, normes sectorielles.</p>
+        <ul class="card-list">
+          <li><strong>Contexte :</strong> Critique dans le secteur public et para-public.</li>
+          <li><strong>Référence :</strong> Le cadre européen EIF distingue explicitement un niveau juridique au-dessus des niveaux organisationnel, sémantique et technique.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
   <!-- ════════ POSTER 2 ════════ -->
   <div class="poster-section">
     <img src="public/Poster 2.png" alt="Poster — Blueprint d'une Architecture d'Intégration Moderne" loading="lazy">
