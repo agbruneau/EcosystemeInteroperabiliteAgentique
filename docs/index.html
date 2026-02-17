@@ -6,32 +6,34 @@
   <title>Interopérabilité et Agentique — Référentiel de Domaine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-deep: #080b14;
-      --bg-surface: #0d1117;
-      --bg-card: #111820;
-      --bg-card-hover: #161e2a;
-      --border: rgba(99,140,210,0.1);
-      --border-glow: rgba(99,140,210,0.25);
-      --text: #c9d1d9;
-      --text-muted: #7d8590;
-      --text-heading: #e6edf3;
+      --bg-deep: #050a18;
+      --bg-surface: #0a1225;
+      --bg-card: rgba(12, 24, 50, 0.55);
+      --bg-card-hover: rgba(20, 36, 68, 0.7);
+      --border: rgba(80, 140, 240, 0.07);
+      --border-glow: rgba(80, 140, 240, 0.2);
+      --text: #bcc8d8;
+      --text-muted: #6a7a90;
+      --text-heading: #e2ecf8;
       --text-bright: #f0f6fc;
-      --accent: #58a6ff;
-      --accent-glow: rgba(88,166,255,0.15);
-      --accent-dim: rgba(88,166,255,0.08);
-      --grid-line: rgba(99,140,210,0.04);
-      --max-w: 72rem;
-      --font-display: 'DM Serif Display', Georgia, 'Times New Roman', serif;
-      --font-body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-      --cat-transversal: #eab308;
-      --cat-applications: #2563eb;
-      --cat-donnees: #059669;
-      --cat-evenements: #d97706;
-      --cat-volume: #a855f7;
-      --cat-annexe: #6b7280;
+      --accent: #38bdf8;
+      --accent-secondary: #818cf8;
+      --accent-glow: rgba(56, 189, 248, 0.12);
+      --accent-dim: rgba(56, 189, 248, 0.06);
+      --grid-line: rgba(80, 140, 240, 0.025);
+      --max-w: 74rem;
+      --font-display: 'Instrument Serif', Georgia, 'Times New Roman', serif;
+      --font-body: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      --radius: 12px;
+      --cat-transversal: #facc15;
+      --cat-applications: #3b82f6;
+      --cat-donnees: #10b981;
+      --cat-evenements: #f59e0b;
+      --cat-volume: #a78bfa;
+      --cat-annexe: #94a3b8;
     }
 
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -41,13 +43,18 @@
     body {
       font-family: var(--font-body);
       background: var(--bg-deep);
+      background-image:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(56, 189, 248, 0.07), transparent),
+        radial-gradient(ellipse 60% 60% at 0% 50%, rgba(129, 140, 248, 0.04), transparent),
+        radial-gradient(ellipse 60% 60% at 100% 80%, rgba(16, 185, 129, 0.04), transparent);
+      background-attachment: fixed;
       color: var(--text);
       line-height: 1.7;
       -webkit-font-smoothing: antialiased;
       overflow-x: hidden;
     }
 
-    /* ── Blueprint grid background ── */
+    /* ── Blueprint grid ── */
     body::before {
       content: '';
       position: fixed;
@@ -55,7 +62,9 @@
       background:
         linear-gradient(var(--grid-line) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
-      background-size: 60px 60px;
+      background-size: 50px 50px;
+      mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent);
+      -webkit-mask-image: radial-gradient(ellipse 70% 70% at 50% 50%, black 30%, transparent);
       pointer-events: none;
       z-index: 0;
     }
@@ -65,64 +74,66 @@
     /* ── Scrollbar ── */
     ::-webkit-scrollbar { width: 6px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
-    ::-webkit-scrollbar-thumb { background: #2a3444; border-radius: 3px; }
-    ::-webkit-scrollbar-thumb:hover { background: #3a4a5a; }
+    ::-webkit-scrollbar-thumb { background: #1e2d42; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #2a3d54; }
 
     /* ── Animations ── */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
     @keyframes pulse-glow {
-      0%, 100% { opacity: 0.4; }
+      0%, 100% { opacity: 0.3; }
       50% { opacity: 1; }
     }
     @keyframes line-draw {
       from { stroke-dashoffset: 800; }
       to { stroke-dashoffset: 0; }
     }
-
-    .fade-in {
-      opacity: 0;
-      animation: fadeUp 0.7s ease-out forwards;
+    @keyframes hero-drift {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(2%, -1.5%) scale(1.01); }
+      66% { transform: translate(-1.5%, 1%) scale(0.99); }
     }
 
     /* ── Hero ── */
     .hero {
       position: relative;
       text-align: center;
-      padding: 5rem 2rem 4rem;
+      padding: 6rem 2rem 5rem;
       overflow: hidden;
-      border-bottom: 1px solid var(--border);
     }
 
     .hero::before {
       content: '';
       position: absolute;
-      inset: 0;
+      inset: -30%;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(88,166,255,0.08) 0%, transparent 70%),
-        radial-gradient(ellipse 50% 80% at 20% 100%, rgba(168,85,247,0.06) 0%, transparent 60%),
-        radial-gradient(ellipse 50% 80% at 80% 100%, rgba(5,150,105,0.06) 0%, transparent 60%);
+        radial-gradient(ellipse at 50% 30%, rgba(56, 189, 248, 0.12), transparent 50%),
+        radial-gradient(ellipse at 25% 80%, rgba(129, 140, 248, 0.08), transparent 45%),
+        radial-gradient(ellipse at 75% 80%, rgba(16, 185, 129, 0.08), transparent 45%);
+      animation: hero-drift 20s ease-in-out infinite;
       pointer-events: none;
     }
 
-    /* SVG network lines in hero */
-    .hero-network {
+    .hero::after {
+      content: '';
       position: absolute;
-      inset: 0;
-      overflow: hidden;
-      pointer-events: none;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), var(--accent-secondary), transparent);
+      opacity: 0.35;
     }
-    .hero-network svg {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-    }
+
+    /* SVG network */
+    .hero-network { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero-network svg { position: absolute; width: 100%; height: 100%; }
     .hero-network line {
       stroke: var(--accent);
       stroke-width: 0.5;
-      opacity: 0.12;
+      opacity: 0.1;
       stroke-dasharray: 800;
       animation: line-draw 4s ease-out forwards;
     }
@@ -139,22 +150,22 @@
 
     .hero-overline {
       font-family: var(--font-body);
-      font-size: 0.8rem;
-      font-weight: 500;
-      letter-spacing: 0.2em;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 1.25rem;
+      margin-bottom: 1.5rem;
       animation: fadeUp 0.6s ease-out 0.1s both;
     }
 
     .hero h1 {
       font-family: var(--font-display);
-      font-size: clamp(2.2rem, 5vw, 3.6rem);
+      font-size: clamp(2.4rem, 5.5vw, 4rem);
       color: var(--text-bright);
       line-height: 1.15;
-      letter-spacing: -0.02em;
-      margin-bottom: 1rem;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.25rem;
       animation: fadeUp 0.7s ease-out 0.2s both;
     }
     .hero h1 em {
@@ -163,14 +174,16 @@
     }
 
     .hero-subtitle {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--text-muted);
-      max-width: 40rem;
-      margin: 0 auto 2rem;
+      max-width: 42rem;
+      margin: 0 auto;
+      font-weight: 300;
+      letter-spacing: 0.02em;
       animation: fadeUp 0.7s ease-out 0.35s both;
     }
 
-    /* ── Resource bar (PDF, Podcast, links) ── */
+    /* ── Resource bar ── */
     .resource-bar {
       display: flex;
       align-items: center;
@@ -178,38 +191,37 @@
       gap: 1.5rem;
       flex-wrap: wrap;
       padding: 1.25rem 2rem;
-      background: var(--bg-surface);
+      background: rgba(10, 18, 37, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
 
     .resource-link {
       display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
+      gap: 0.5rem;
       color: var(--text);
       text-decoration: none;
       font-size: 0.88rem;
       font-weight: 500;
-      padding: 0.45rem 0.9rem;
-      border-radius: 6px;
+      padding: 0.5rem 1.1rem;
+      border-radius: 100px;
       border: 1px solid var(--border);
-      transition: all 0.2s;
+      transition: all 0.25s;
       background: transparent;
     }
     .resource-link:hover {
       border-color: var(--accent);
       color: var(--accent);
       background: var(--accent-dim);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.08);
     }
-    .resource-link svg {
-      width: 16px;
-      height: 16px;
-      flex-shrink: 0;
-    }
+    .resource-link svg { width: 16px; height: 16px; flex-shrink: 0; }
 
     .resource-bar audio {
       height: 36px;
-      border-radius: 6px;
+      border-radius: 100px;
       max-width: 320px;
     }
 
@@ -222,38 +234,50 @@
     }
     .poster-section img {
       max-width: 100%;
-      max-height: 620px;
-      border-radius: 10px;
+      max-height: 720px;
+      border-radius: var(--radius);
       box-shadow:
-        0 0 0 1px rgba(99,140,210,0.08),
-        0 8px 40px rgba(0,0,0,0.5),
-        0 0 80px rgba(88,166,255,0.04);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
+        0 0 0 1px rgba(80, 140, 240, 0.06),
+        0 8px 40px rgba(0, 0, 0, 0.5),
+        0 0 60px rgba(56, 189, 248, 0.03);
+      transition: transform 0.5s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.5s ease;
     }
     .poster-section img:hover {
-      transform: scale(1.01);
+      transform: scale(1.008);
       box-shadow:
-        0 0 0 1px rgba(99,140,210,0.15),
-        0 12px 50px rgba(0,0,0,0.6),
-        0 0 100px rgba(88,166,255,0.08);
+        0 0 0 1px rgba(80, 140, 240, 0.12),
+        0 16px 60px rgba(0, 0, 0, 0.6),
+        0 0 80px rgba(56, 189, 248, 0.06);
+    }
+
+    /* Poster gallery (2-col grid) */
+    .poster-gallery {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .poster-gallery .poster-section {
+      padding: 2rem 1rem;
+    }
+    .poster-gallery .poster-section img {
+      max-height: 480px;
+      width: 100%;
+      object-fit: contain;
     }
 
     /* ── Section containers ── */
     .section {
       max-width: var(--max-w);
       margin: 0 auto;
-      padding: 3.5rem 2rem;
+      padding: 4rem 2rem;
     }
 
-    .section-header {
-      margin-bottom: 2rem;
-    }
+    .section-header { margin-bottom: 2.5rem; }
 
     .section-label {
       font-family: var(--font-body);
-      font-size: 0.75rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 0.5rem;
@@ -261,7 +285,7 @@
 
     .section-title {
       font-family: var(--font-display);
-      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-size: clamp(1.6rem, 3.5vw, 2.2rem);
       color: var(--text-heading);
       line-height: 1.25;
     }
@@ -276,20 +300,25 @@
     /* ── Legend ── */
     .legend {
       display: flex;
-      gap: 1.25rem;
+      gap: 0.6rem;
       flex-wrap: wrap;
-      margin-bottom: 1.75rem;
+      margin-bottom: 2rem;
     }
     .legend-item {
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 0.45rem;
-      font-size: 0.82rem;
+      gap: 0.5rem;
+      font-size: 0.78rem;
+      font-weight: 500;
       color: var(--text-muted);
+      padding: 0.35rem 0.85rem;
+      border-radius: 100px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
     }
     .legend-dot {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
       box-shadow: 0 0 6px currentColor;
     }
@@ -304,18 +333,20 @@
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     }
 
-    /* ── Cards: chapters & volumes ── */
+    /* ── Cards ── */
     .card {
       position: relative;
       display: flex;
       flex-direction: column;
       background: var(--bg-card);
-      padding: 1.3rem 1.4rem;
-      border-radius: 8px;
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      padding: 1.4rem 1.5rem;
+      border-radius: var(--radius);
       text-decoration: none;
       color: var(--text);
       border: 1px solid var(--border);
-      transition: all 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
       overflow: hidden;
     }
     .card::before {
@@ -326,14 +357,24 @@
       bottom: 0;
       width: 3px;
       border-radius: 3px 0 0 3px;
+      transition: width 0.3s, box-shadow 0.3s, opacity 0.3s;
     }
-    .card[style]::before { background: var(--card-accent); }
+    .card[style]::before {
+      background: var(--card-accent);
+      box-shadow: 0 0 12px var(--card-accent);
+      opacity: 0.5;
+    }
 
     .card:hover {
       border-color: var(--border-glow);
       background: var(--bg-card-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 8px 32px rgba(0,0,0,0.3), 0 0 0 1px var(--border-glow);
+      transform: translateY(-3px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35), 0 0 0 1px var(--border-glow);
+    }
+    .card:hover::before {
+      width: 4px;
+      opacity: 1;
+      box-shadow: 0 0 20px var(--card-accent), 0 0 40px var(--card-accent);
     }
     a.card:hover { color: var(--text); }
 
@@ -350,18 +391,18 @@
       min-width: 1.4rem;
     }
     .card-badge .tag {
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 600;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       text-transform: uppercase;
-      padding: 0.15rem 0.55rem;
-      border-radius: 4px;
+      padding: 0.18rem 0.6rem;
+      border-radius: 100px;
       color: white;
     }
 
     .card h3 {
       font-family: var(--font-display);
-      font-size: 1.02rem;
+      font-size: 1.04rem;
       font-weight: 400;
       color: var(--text-heading);
       line-height: 1.35;
@@ -369,28 +410,31 @@
 
     .card-desc {
       margin-top: 0.5rem;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       color: var(--text-muted);
-      line-height: 1.6;
+      line-height: 1.65;
     }
+    .card-desc + .card-desc { margin-top: 0.3rem; }
 
     .card-list {
       margin-top: 0.5rem;
       padding-left: 1.1rem;
-      font-size: 0.84rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
-      line-height: 1.65;
+      line-height: 1.7;
     }
-    .card-list strong {
-      color: var(--text);
-      font-weight: 500;
-    }
+    .card-list strong { color: var(--text); font-weight: 500; }
 
-    /* Non-interactive cards (domain architecture) */
+    /* Non-interactive cards */
     .card-static { cursor: default; }
-    .card-static:hover { transform: none; }
+    .card-static:hover {
+      transform: none;
+      box-shadow: none;
+      border-color: var(--border);
+      background: var(--bg-card);
+    }
 
-    /* ── Domain architecture numbered cards ── */
+    /* ── Domain architecture ── */
     .domain-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -401,10 +445,10 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 28px;
-      height: 28px;
-      border-radius: 6px;
-      font-size: 0.78rem;
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      font-size: 0.8rem;
       font-weight: 700;
       color: white;
       flex-shrink: 0;
@@ -412,61 +456,71 @@
     .domain-header {
       display: flex;
       align-items: center;
-      gap: 0.65rem;
-      margin-bottom: 0.55rem;
+      gap: 0.7rem;
+      margin-bottom: 0.6rem;
     }
 
-    /* ── Callout box ── */
+    /* ── Callout ── */
     .callout {
       background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
-      padding: 1.5rem 1.6rem;
-      border-radius: 8px;
-      margin-top: 1.5rem;
+      padding: 1.6rem 1.8rem;
+      border-radius: var(--radius);
+      margin-top: 1.75rem;
     }
     .callout h3 {
       font-family: var(--font-display);
-      font-size: 1.05rem;
+      font-size: 1.08rem;
       color: var(--text-heading);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
     .callout ol {
       padding-left: 1.2rem;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
+      color: var(--text-muted);
+      line-height: 1.8;
+    }
+    .callout ol strong { color: var(--text); font-weight: 500; }
+    .callout p {
+      font-size: 0.88rem;
       color: var(--text-muted);
       line-height: 1.75;
     }
-    .callout ol strong { color: var(--text); font-weight: 500; }
+    .callout p + p { margin-top: 0.5rem; }
 
-    /* ── AI Tooling section ── */
+    /* ── AI section ── */
     .ai-intro {
       background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
       border-left: 3px solid var(--accent);
-      padding: 1.5rem 1.6rem;
-      border-radius: 8px;
-      margin-bottom: 2rem;
+      padding: 1.6rem 1.8rem;
+      border-radius: var(--radius);
+      margin-bottom: 2.5rem;
     }
     .ai-intro h3 {
       font-family: var(--font-display);
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       color: var(--text-heading);
-      margin-bottom: 0.65rem;
+      margin-bottom: 0.7rem;
     }
     .ai-intro p {
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       color: var(--text-muted);
-      line-height: 1.7;
+      line-height: 1.75;
     }
     .ai-intro p + p { margin-top: 0.5rem; }
     .ai-intro strong { color: var(--text); font-weight: 500; }
 
     .sub-title {
       font-family: var(--font-display);
-      font-size: 1.2rem;
+      font-size: 1.25rem;
       color: var(--text-heading);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.85rem;
     }
     .sub-desc {
       font-size: 0.9rem;
@@ -474,18 +528,20 @@
       margin-bottom: 1.25rem;
     }
 
-    /* ── Phase timeline cards ── */
+    /* ── Phase timeline ── */
     .phase-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 0.85rem;
-      margin-bottom: 2rem;
+      margin-bottom: 2.5rem;
     }
     .phase-card {
       background: var(--bg-card);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--border);
-      padding: 1.3rem 1.4rem;
-      border-radius: 8px;
+      padding: 1.4rem 1.5rem;
+      border-radius: var(--radius);
       position: relative;
       overflow: hidden;
     }
@@ -496,22 +552,24 @@
       left: 0;
       right: 0;
       height: 2px;
+      background: var(--phase-color);
+      box-shadow: 0 0 12px var(--phase-color);
     }
     .phase-card h4 {
       font-family: var(--font-display);
-      font-size: 0.98rem;
+      font-size: 1rem;
       color: var(--text-heading);
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.6rem;
     }
     .phase-card p {
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       color: var(--text-muted);
-      line-height: 1.65;
+      line-height: 1.7;
     }
     .phase-card .phase-result {
-      font-size: 0.8rem;
+      font-size: 0.78rem;
       color: var(--text);
-      margin-top: 0.6rem;
+      margin-top: 0.65rem;
       font-style: italic;
       opacity: 0.85;
     }
@@ -521,68 +579,85 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 1rem;
+      gap: 0.85rem;
       flex-wrap: wrap;
       padding: 1.5rem 2rem;
-      background: var(--bg-surface);
+      background: rgba(10, 18, 37, 0.8);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       border-bottom: 1px solid var(--border);
     }
 
     .links-bar a {
       color: var(--text);
       text-decoration: none;
-      font-size: 0.88rem;
+      font-size: 0.86rem;
       font-weight: 500;
-      padding: 0.45rem 0.9rem;
-      border-radius: 6px;
+      padding: 0.5rem 1.1rem;
+      border-radius: 100px;
       border: 1px solid var(--border);
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
     .links-bar a:hover {
       border-color: var(--accent);
       color: var(--accent);
       background: var(--accent-dim);
+      box-shadow: 0 0 20px rgba(56, 189, 248, 0.08);
     }
 
     /* ── Divider ── */
     .divider {
       border: none;
-      border-top: 1px solid var(--border);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.15;
       margin: 0;
     }
 
     /* ── Footer ── */
     footer {
       text-align: center;
-      padding: 2.5rem 2rem;
+      padding: 3rem 2rem;
       color: var(--text-muted);
       font-size: 0.82rem;
       border-top: 1px solid var(--border);
       background: var(--bg-surface);
+      position: relative;
+    }
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 10%;
+      right: 10%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent-secondary), transparent);
+      opacity: 0.3;
     }
     footer strong { color: var(--text); font-weight: 500; }
 
     /* ── Responsive ── */
     @media (max-width: 768px) {
-      .hero { padding: 3.5rem 1.25rem 2.5rem; }
-      .section { padding: 2.5rem 1.25rem; }
+      .hero { padding: 4rem 1.25rem 3rem; }
+      .section { padding: 3rem 1.25rem; }
       .resource-bar { gap: 0.75rem; padding: 1rem; }
       .domain-grid { grid-template-columns: 1fr; }
       .grid { grid-template-columns: 1fr; }
       .phase-grid { grid-template-columns: 1fr; }
+      .poster-gallery { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .hero h1 { font-size: 1.8rem; }
+      .hero h1 { font-size: 1.9rem; }
       .hero-subtitle { font-size: 0.95rem; }
-      .legend { gap: 0.75rem; }
+      .legend { gap: 0.5rem; }
     }
 
-    /* ── Staggered animation on scroll ── */
+    /* ── Scroll reveal ── */
     .card, .phase-card, .callout, .ai-intro {
       opacity: 0;
       transform: translateY(16px);
-      transition: opacity 0.5s ease, transform 0.5s ease;
+      transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1), transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
     }
     .card.visible, .phase-card.visible, .callout.visible, .ai-intro.visible {
       opacity: 1;
@@ -614,6 +689,7 @@
       </svg>
     </div>
 
+    <p class="hero-overline">Référentiel de Domaine</p>
     <h1>Interopérabilité <em>&</em> Agentique</h1>
     <p class="hero-subtitle">Architectures d'Intégration — Du Couplage Fort au Découplage Maximal</p>
   </header>
@@ -645,7 +721,7 @@
   </nav>
 
   <!-- ════════ CORPUS INFORMATIQUE ════════ -->
-  <section class="section">
+  <section class="section" id="corpus">
     <div class="section-header">
       <h2 class="section-title">Corpus</h2>
     </div>
@@ -678,7 +754,7 @@
   <hr class="divider">
 
   <!-- ════════ ARCHITECTURE DE DOMAINE ════════ -->
-  <section class="section">
+  <section class="section" id="recit">
     <div class="section-header">
       <h2 class="section-title">Récit</h2>
     </div>
@@ -778,7 +854,7 @@
   <hr class="divider">
 
   <!-- ════════ CHAPITRES ════════ -->
-  <section class="section">
+  <section class="section" id="integration">
     <div class="section-header">
       <h2 class="section-title">Domaine Intégration</h2>
     </div>
@@ -881,7 +957,7 @@
   <hr class="divider">
 
   <!-- ════════ NIVEAUX D'INTEROPÉRABILITÉ ════════ -->
-  <section class="section">
+  <section class="section" id="niveaux">
     <div class="section-header">
       <h2 class="section-title">Niveaux de maturité de l'Interopérabilité</h2>
     </div>
@@ -975,7 +1051,7 @@
   <hr class="divider">
 
   <!-- ════════ ARCHITECTE ASSISTÉ IA ════════ -->
-  <section class="section">
+  <section class="section" id="outils-ia">
     <div class="section-header">
       <h2 class="section-title">Outils IA</h2>
     </div>
@@ -997,7 +1073,7 @@
         </div>
         <h3>Perplexity Pro — The Scout</h3>
         <p class="card-desc"><strong>Fonction :</strong> Validation factuelle et ancrage dans le réel.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">Il est interdit de l'utiliser pour la création pure. Il sert exclusivement à la recherche de l'état de l'art, la validation de normes (ex: ISO, IEEE) et la veille technologique en temps réel. Il est le gardien de la vérité externe.</p>
+        <p class="card-desc">Il est interdit de l'utiliser pour la création pure. Il sert exclusivement à la recherche de l'état de l'art, la validation de normes (ex: ISO, IEEE) et la veille technologique en temps réel. Il est le gardien de la vérité externe.</p>
       </div>
 
       <div class="card card-static" style="--card-accent:#f59e0b;">
@@ -1006,7 +1082,7 @@
         </div>
         <h3>Gemini Pro — The Strategist</h3>
         <p class="card-desc"><strong>Fonction :</strong> Synthèse systémique et critique.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">Grâce à sa fenêtre de contexte massive, il ingère des corpus entiers. Il excelle dans le raisonnement "First Principles", l'identification de goulots d'étranglement et joue le rôle de "Red Team" pour contester nos propres architectures.</p>
+        <p class="card-desc">Grâce à sa fenêtre de contexte massive, il ingère des corpus entiers. Il excelle dans le raisonnement "First Principles", l'identification de goulots d'étranglement et joue le rôle de "Red Team" pour contester nos propres architectures.</p>
       </div>
 
       <div class="card card-static" style="--card-accent:#a855f7;">
@@ -1015,7 +1091,7 @@
         </div>
         <h3>Claude Max — The Staff Engineer</h3>
         <p class="card-desc"><strong>Fonction :</strong> Conception structurelle et codage de précision.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">C'est le moteur de production intellectuelle. Il rédige les documents complexes, génère le code idiomatique et produit les artefacts visuels (PlantUML, Mermaid). Il est garant de la cohérence logique.</p>
+        <p class="card-desc">C'est le moteur de production intellectuelle. Il rédige les documents complexes, génère le code idiomatique et produit les artefacts visuels (PlantUML, Mermaid). Il est garant de la cohérence logique.</p>
       </div>
 
       <div class="card card-static" style="--card-accent:#10b981;">
@@ -1024,7 +1100,7 @@
         </div>
         <h3>Cursor — The Builder</h3>
         <p class="card-desc"><strong>Fonction :</strong> Développement agentique en contexte.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">IDE agentique propulsé par l'IA. Il comprend la base de code dans son intégralité, orchestre des modifications multi-fichiers et accélère le cycle d'implémentation. Il transforme l'intention architecturale en code de production avec une conscience contextuelle inégalée.</p>
+        <p class="card-desc">IDE agentique propulsé par l'IA. Il comprend la base de code dans son intégralité, orchestre des modifications multi-fichiers et accélère le cycle d'implémentation. Il transforme l'intention architecturale en code de production avec une conscience contextuelle inégalée.</p>
       </div>
 
       <div class="card card-static" style="--card-accent:#ec4899;">
@@ -1033,7 +1109,7 @@
         </div>
         <h3>NotebookLM — The Librarian</h3>
         <p class="card-desc"><strong>Fonction :</strong> Synthèse documentaire et assimilation de sources.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">Il ingère des corpus de documents (PDF, articles, notes) et en extrait une compréhension structurée. Il excelle dans la création de briefings, la génération de FAQ à partir de sources multiples et la production de podcasts synthétiques. Il est le bibliothécaire augmenté de l'architecte.</p>
+        <p class="card-desc">Il ingère des corpus de documents (PDF, articles, notes) et en extrait une compréhension structurée. Il excelle dans la création de briefings, la génération de FAQ à partir de sources multiples et la production de podcasts synthétiques. Il est le bibliothécaire augmenté de l'architecte.</p>
       </div>
 
       <div class="card card-static" style="--card-accent:#ef4444;">
@@ -1042,7 +1118,7 @@
         </div>
         <h3>Gemini Deep Think — The Philosopher</h3>
         <p class="card-desc"><strong>Fonction :</strong> Raisonnement profond et résolution de problèmes complexes.</p>
-        <p class="card-desc" style="margin-top:0.3rem;">Mode de raisonnement avancé de Gemini, il décompose les problèmes les plus ardus en étapes logiques explicites. Il excelle dans l'analyse de compromis architecturaux, la vérification formelle de raisonnements et la résolution de dilemmes techniques où l'intuition seule ne suffit pas.</p>
+        <p class="card-desc">Mode de raisonnement avancé de Gemini, il décompose les problèmes les plus ardus en étapes logiques explicites. Il excelle dans l'analyse de compromis architecturaux, la vérification formelle de raisonnements et la résolution de dilemmes techniques où l'intuition seule ne suffit pas.</p>
       </div>
     </div>
 
@@ -1051,42 +1127,36 @@
 
     <div class="phase-grid">
       <div class="phase-card" style="--phase-color:#ec4899;">
-        <style>.phase-card[style*="ec4899"]::before{background:#ec4899;}</style>
         <h4>Phase I — Immersion (Contexte)</h4>
         <p><strong style="color:#ec4899;">NotebookLM</strong> ingère le corpus documentaire existant (normes, ADR précédents, retours d'expérience, standards sectoriels) et produit un briefing structuré. Il identifie les patterns récurrents, les décisions passées et les leçons apprises pour ancrer la réflexion dans l'historique du domaine.</p>
         <p class="phase-result">Résultat : Un briefing contextuel structuré, synthétisant le corpus existant et les précédents pertinents.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#f59e0b;">
-        <style>.phase-card[style*="f59e0b"]::before{background:#f59e0b;}</style>
         <h4>Phase II — Idéation (Divergence)</h4>
         <p>L'architecte initie le cycle avec <strong style="color:#f59e0b;">Gemini</strong> pour déconstruire le problème en composantes fondamentales via un raisonnement First Principles. <strong style="color:#06b6d4;">Perplexity</strong> vérifie si ces problèmes ont déjà été résolus ailleurs dans l'industrie et identifie les tendances émergentes et les solutions éprouvées.</p>
         <p class="phase-result">Résultat : Un énoncé de problème validé, décomposé en sous-problèmes et ancré dans l'état de l'art.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#06b6d4;">
-        <style>.phase-card[style*="06b6d4"]::before{background:#06b6d4;}</style>
         <h4>Phase III — Inception (Convergence)</h4>
         <p>Les spécifications sont passées à <strong style="color:#a855f7;">Claude</strong> pour structurer les exigences non fonctionnelles. <strong style="color:#06b6d4;">Perplexity</strong> effectue l'analyse FinOps. <strong style="color:#f59e0b;">Gemini</strong> croise les exigences avec l'architecture existante. <strong style="color:#ef4444;">Gemini Deep Think</strong> est mobilisé pour le raisonnement profond sur les contraintes croisées et les compromis non triviaux entre exigences concurrentes.</p>
         <p class="phase-result">Résultat : Un document de cadrage technique et budgétaire robuste, avec une analyse formelle des compromis.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#a855f7;">
-        <style>.phase-card[style*="a855f7"]::before{background:#a855f7;}</style>
         <h4>Phase IV — Conception (Architecture)</h4>
         <p><strong style="color:#a855f7;">Claude</strong> génère les diagrammes C4 via PlantUML et rédige les ADR. Chaque décision est soumise à <strong style="color:#f59e0b;">Gemini</strong> pour un Red Teaming impitoyable. <strong style="color:#ef4444;">Gemini Deep Think</strong> intervient pour la vérification formelle des raisonnements architecturaux et la résolution des dilemmes où plusieurs patterns s'affrontent : boucle itérative vers la résilience maximale.</p>
         <p class="phase-result">Résultat : Un Dossier d'Architecture Technique complet, pré-validé et logiquement vérifié.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#10b981;">
-        <style>.phase-card[style*="10b981"]::before{background:#10b981;}</style>
         <h4>Phase V — Réalisation (Build)</h4>
         <p><strong style="color:#a855f7;">Claude</strong> produit les squelettes de code et les tests unitaires. <strong style="color:#10b981;">Cursor</strong> orchestre l'implémentation multi-fichiers en contexte, accélère le refactoring et assure la cohérence de la base de code. Les revues de code croisées entre <strong style="color:#a855f7;">Claude</strong> et <strong style="color:#f59e0b;">Gemini</strong> garantissent la qualité et la conformité au dossier d'architecture.</p>
         <p class="phase-result">Résultat : Une solution technique fonctionnelle, testée et conforme au dossier d'architecture.</p>
       </div>
 
       <div class="phase-card" style="--phase-color:#ef4444;">
-        <style>.phase-card[style*="ef4444"]::before{background:#ef4444;}</style>
         <h4>Phase VI — Capitalisation (Transfert)</h4>
         <p><strong style="color:#ec4899;">NotebookLM</strong> synthétise la documentation finale à partir du code, des ADR et des spécifications pour produire des guides d'onboarding et des FAQ destinés aux équipes. <strong style="color:#ef4444;">Gemini Deep Think</strong> valide la cohérence globale entre le code livré et les décisions architecturales documentées.</p>
         <p class="phase-result">Résultat : Une base de connaissances complète, prête pour l'onboarding des équipes et le déploiement.</p>
@@ -1096,33 +1166,29 @@
     <!-- 4. Conclusion -->
     <div class="callout" style="border-left-color:#a855f7;">
       <h3>4. Conclusion</h3>
-      <p style="font-size:0.9rem;color:var(--text-muted);line-height:1.7;">
+      <p>
         L'utilisation isolée d'une IA générative produit souvent du contenu générique. L'orchestration stratégique de <strong style="color:#06b6d4;">Perplexity</strong>, <strong style="color:#f59e0b;">Gemini</strong>, <strong style="color:#a855f7;">Claude</strong>, <strong style="color:#10b981;">Cursor</strong>, <strong style="color:#ec4899;">NotebookLM</strong> et <strong style="color:#ef4444;">Gemini Deep Think</strong> crée une chaîne de valeur où chaque outil compense les faiblesses de l'autre.
       </p>
-      <p style="font-size:0.9rem;color:var(--text-muted);margin-top:0.5rem;line-height:1.7;">
+      <p>
         Pour l'architecte de domaine, cette approche ne vise pas à travailler plus vite, mais à <strong style="color:var(--text);">penser plus profondément</strong>. Elle permet de passer plus de temps sur l'intention et le design, et moins sur la syntaxe et la mise en forme. C'est le fondement de l'ingénierie augmentée.
       </p>
     </div>
   </section>
 
-  <!-- ════════ POSTER 6 ════════ -->
-  <div class="poster-section">
-    <img src="public/Poster 6.png" alt="Poster 6" loading="lazy" style="max-width:60%;">
-  </div>
-
-  <!-- ════════ POSTER 3 ════════ -->
-  <div class="poster-section">
-    <img src="public/Poster 3.png" alt="Poster — Environnement de travail" loading="lazy">
-  </div>
-
-  <!-- ════════ POSTER 4 ════════ -->
-  <div class="poster-section">
-    <img src="public/Poster 4.jpg" alt="Poster — Auto Claude : Pilotage Agentique" loading="lazy">
-  </div>
-
-  <!-- ════════ POSTER 5 ════════ -->
-  <div class="poster-section">
-    <img src="public/Poster 5.png" alt="Poster 5" loading="lazy">
+  <!-- ════════ POSTER GALLERY ════════ -->
+  <div class="poster-gallery">
+    <div class="poster-section">
+      <img src="public/Poster 6.png" alt="Poster 6" loading="lazy">
+    </div>
+    <div class="poster-section">
+      <img src="public/Poster 3.png" alt="Poster — Environnement de travail" loading="lazy">
+    </div>
+    <div class="poster-section">
+      <img src="public/Poster 4.jpg" alt="Poster — Auto Claude : Pilotage Agentique" loading="lazy">
+    </div>
+    <div class="poster-section">
+      <img src="public/Poster 5.png" alt="Poster 5" loading="lazy">
+    </div>
   </div>
 
   <!-- ════════ FOOTER ════════ -->
@@ -1139,7 +1205,7 @@
         return;
       }
       const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry, i) => {
+        entries.forEach((entry) => {
           if (entry.isIntersecting) {
             const siblings = Array.from(entry.target.parentElement.children);
             const idx = siblings.indexOf(entry.target);
