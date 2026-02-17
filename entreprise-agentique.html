@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Entreprise Agentique — Quand l'IA passe de l'assistance à l'action autonome</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;--bg2:#12121a;--bg3:#1a1a28;--bg4:#222236;
+  --text:#e4e4ef;--text2:#a0a0b8;--text3:#6e6e8a;
+  --accent:#6c5ce7;--accent2:#a29bfe;--accent3:#00cec9;
+  --grad1:linear-gradient(135deg,#6c5ce7,#00cec9);
+  --grad2:linear-gradient(135deg,#6c5ce7 0%,#a29bfe 50%,#00cec9 100%);
+  --radius:12px;--radius-lg:20px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI',system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--text);line-height:1.65;overflow-x:hidden}
+a{color:var(--accent2);text-decoration:none;transition:color .2s}
+a:hover{color:var(--accent3)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;width:100%;z-index:100;background:rgba(10,10,15,.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(108,92,231,.15)}
+nav .inner{max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 2rem}
+nav .logo{font-weight:700;font-size:1.15rem;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+nav ul{display:flex;gap:1.8rem;list-style:none}
+nav a{color:var(--text2);font-size:.88rem;font-weight:500;transition:color .2s}
+nav a:hover{color:#fff}
+
+/* ── HERO ── */
+.hero{min-height:100vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:8rem 2rem 4rem;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(108,92,231,.18),transparent 70%);top:-100px;right:-150px;pointer-events:none}
+.hero::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(0,206,201,.12),transparent 70%);bottom:-80px;left:-120px;pointer-events:none}
+.hero h1{font-size:clamp(2.4rem,5.5vw,4.2rem);font-weight:800;line-height:1.15;margin-bottom:1rem;background:var(--grad2);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.hero p{font-size:clamp(1.05rem,2vw,1.35rem);color:var(--text2);max-width:640px;margin:0 auto 2.5rem}
+.hero .date{font-size:.85rem;color:var(--text3);margin-bottom:2rem;letter-spacing:.08em;text-transform:uppercase}
+.cta{display:inline-block;padding:.85rem 2.4rem;background:var(--grad1);color:#fff;font-weight:600;border-radius:50px;font-size:1rem;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 24px rgba(108,92,231,.3)}
+.cta:hover{transform:translateY(-2px);box-shadow:0 8px 32px rgba(108,92,231,.45);color:#fff}
+
+/* ── SECTIONS ── */
+section{padding:5rem 2rem}
+.container{max-width:1100px;margin:0 auto}
+.section-title{font-size:clamp(1.6rem,3.5vw,2.4rem);font-weight:700;margin-bottom:.6rem;text-align:center}
+.section-sub{text-align:center;color:var(--text2);max-width:600px;margin:0 auto 3rem;font-size:1.02rem}
+.gradient-text{background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+
+/* ── STATS ── */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.stat-card{background:var(--bg2);border:1px solid rgba(108,92,231,.12);border-radius:var(--radius-lg);padding:2rem 1.6rem;text-align:center;transition:transform .25s,border-color .25s}
+.stat-card:hover{transform:translateY(-4px);border-color:rgba(108,92,231,.35)}
+.stat-num{font-size:2.6rem;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1.1}
+.stat-label{font-weight:600;margin:.5rem 0 .3rem;font-size:1rem}
+.stat-desc{color:var(--text2);font-size:.88rem}
+
+/* ── PROBLEMS ── */
+.problems{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem}
+.problem-card{background:var(--bg2);border:1px solid rgba(255,107,107,.1);border-radius:var(--radius);padding:1.8rem;position:relative;overflow:hidden}
+.problem-card::before{content:attr(data-num);position:absolute;top:-.3rem;right:.8rem;font-size:4rem;font-weight:900;color:rgba(255,107,107,.07)}
+.problem-card h4{color:#ff6b6b;font-size:1.05rem;margin-bottom:.4rem}
+.problem-card p{color:var(--text2);font-size:.9rem}
+
+/* ── DEFINITION BOX ── */
+.def-section{background:var(--bg2);border-radius:var(--radius-lg);padding:3rem 2.5rem;border:1px solid rgba(108,92,231,.2);position:relative;overflow:hidden}
+.def-section::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:var(--grad1)}
+.def-quote{font-size:clamp(1.1rem,2vw,1.35rem);font-weight:500;text-align:center;margin-bottom:2.5rem;color:var(--accent2);line-height:1.6}
+.pillars-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.5rem}
+.pillar-mini{text-align:center}
+.pillar-mini .icon{width:52px;height:52px;border-radius:50%;background:var(--grad1);display:inline-flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:#fff;margin-bottom:.7rem}
+.pillar-mini h4{font-size:1rem;margin-bottom:.3rem}
+.pillar-mini p{color:var(--text2);font-size:.85rem}
+
+/* ── CONTROL TOWER ── */
+.tower-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.5rem;margin-bottom:1.5rem}
+.tower-card{background:var(--bg3);border-radius:var(--radius);padding:1.6rem;border:1px solid rgba(0,206,201,.1);transition:border-color .25s}
+.tower-card:hover{border-color:rgba(0,206,201,.35)}
+.tower-card .tc-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,rgba(0,206,201,.2),rgba(108,92,231,.2));display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--accent3);margin-bottom:.8rem;font-size:1.1rem}
+.tower-card h4{font-size:.98rem;margin-bottom:.3rem}
+.tower-card p{color:var(--text2);font-size:.85rem}
+.tower-footer{text-align:center;color:var(--accent2);font-style:italic;font-size:.95rem;padding:1rem;background:var(--bg2);border-radius:var(--radius);border:1px dashed rgba(108,92,231,.2)}
+
+/* ── COMPARISON TABLE ── */
+.compare{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+.compare-col{background:var(--bg2);border-radius:var(--radius-lg);padding:2rem 1.5rem;text-align:center;border:1px solid rgba(108,92,231,.1);transition:transform .2s}
+.compare-col:last-child{border-color:rgba(108,92,231,.35);box-shadow:0 0 40px rgba(108,92,231,.08)}
+.compare-col h3{font-size:1.2rem;margin-bottom:.8rem}
+.compare-col:last-child h3{background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.compare-col p{color:var(--text2);font-size:.9rem;line-height:1.6}
+
+/* ── PILLAR DETAIL ── */
+.pillar-section{margin-bottom:4rem}
+.pillar-header{display:flex;align-items:center;gap:1rem;margin-bottom:1.5rem}
+.pillar-badge{width:48px;height:48px;border-radius:14px;background:var(--grad1);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff;font-size:1.2rem;flex-shrink:0}
+.pillar-header h3{font-size:1.4rem;font-weight:700}
+.kw-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem}
+.kw-card{background:var(--bg3);border-radius:var(--radius);padding:1.3rem 1.5rem;border-left:3px solid var(--accent);transition:border-color .2s}
+.kw-card:hover{border-left-color:var(--accent3)}
+.kw-card strong{display:block;margin-bottom:.25rem;color:var(--accent2);font-size:.95rem}
+.kw-card span{color:var(--text2);font-size:.88rem}
+
+/* ── USE CASES ── */
+.usecase{background:var(--bg2);border-radius:var(--radius-lg);padding:2.2rem;margin-bottom:1.5rem;border:1px solid rgba(108,92,231,.1)}
+.usecase h3{font-size:1.15rem;margin-bottom:1.2rem;color:var(--accent2)}
+.usecase .kw-grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+
+/* ── KPI ── */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+.kpi-card{background:var(--bg2);border-radius:var(--radius-lg);padding:2rem;text-align:center;border:1px solid rgba(0,206,201,.1);transition:transform .25s}
+.kpi-card:hover{transform:translateY(-4px)}
+.kpi-num{font-size:2.4rem;font-weight:800;background:var(--grad1);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.kpi-label{font-weight:600;margin:.4rem 0 .2rem}
+.kpi-desc{color:var(--text2);font-size:.85rem}
+
+/* ── RISKS ── */
+.risk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.5rem}
+.risk-card{background:var(--bg2);border-radius:var(--radius);padding:1.5rem;border-left:3px solid #ff6b6b}
+.risk-card strong{color:#ff6b6b;display:block;margin-bottom:.3rem}
+.risk-card span{color:var(--text2);font-size:.9rem}
+
+/* ── STRATEGIES ── */
+.strat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1rem}
+.strat-card{background:var(--bg3);border-radius:var(--radius);padding:1.4rem 1.5rem;border-left:3px solid var(--accent3)}
+.strat-card strong{display:block;margin-bottom:.25rem;color:var(--accent3)}
+.strat-card span{color:var(--text2);font-size:.88rem}
+
+/* ── ROADMAP ── */
+.roadmap{display:flex;flex-direction:column;gap:0;position:relative}
+.roadmap::before{content:'';position:absolute;left:28px;top:28px;bottom:28px;width:2px;background:linear-gradient(180deg,var(--accent),var(--accent3))}
+.road-step{display:flex;gap:1.5rem;align-items:flex-start;padding:1.2rem 0}
+.road-num{width:56px;height:56px;border-radius:50%;background:var(--bg3);border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.2rem;color:var(--accent2);flex-shrink:0;position:relative;z-index:2}
+.road-content h4{font-size:1.05rem;color:var(--accent2);margin-bottom:.2rem}
+.road-content p{color:var(--text2);font-size:.9rem}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid rgba(108,92,231,.12);padding:2.5rem 2rem;text-align:center;color:var(--text3);font-size:.85rem}
+
+/* ── RESPONSIVE ── */
+@media(max-width:768px){
+  nav ul{display:none}
+  .compare{grid-template-columns:1fr}
+  .roadmap::before{left:26px}
+  section{padding:3.5rem 1.2rem}
+}
+
+/* ── ANIMATION ── */
+.fade-up{opacity:0;transform:translateY(30px);transition:opacity .7s ease,transform .7s ease}
+.fade-up.visible{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="inner">
+    <div class="logo">Entreprise Agentique</div>
+    <ul>
+      <li><a href="#contexte">Contexte</a></li>
+      <li><a href="#definition">Définition</a></li>
+      <li><a href="#piliers">Piliers</a></li>
+      <li><a href="#usecases">Cas d'usage</a></li>
+      <li><a href="#kpi">KPI</a></li>
+      <li><a href="#roadmap">Feuille de route</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="date">Février 2026</div>
+    <h1>Entreprise Agentique</h1>
+    <p>Quand l'IA passe de l'assistance à l'action autonome</p>
+    <a href="#contexte" class="cta">Explorer la vision</a>
+  </div>
+</section>
+
+<!-- CONTEXTE -->
+<section id="contexte">
+  <div class="container">
+    <h2 class="section-title fade-up">Contexte de <span class="gradient-text">Transformation</span></h2>
+    <p class="section-sub fade-up">L'IA agentique redéfinit les organisations à un rythme sans précédent.</p>
+    <div class="stats fade-up">
+      <div class="stat-card"><div class="stat-num">40%</div><div class="stat-label">des applications d'entreprise</div><div class="stat-desc">intègreront des agents IA d'ici fin 2026</div></div>
+      <div class="stat-card"><div class="stat-num">42%</div><div class="stat-label">des organisations</div><div class="stat-desc">ont déjà des agents en production</div></div>
+      <div class="stat-card"><div class="stat-num">$52B</div><div class="stat-label">Marché estimé d'ici 2030</div><div class="stat-desc">en USD pour l'IA agentique</div></div>
+      <div class="stat-card"><div class="stat-num">#1</div><div class="stat-label">Transition la plus rapide</div><div class="stat-desc">en automatisation depuis 5 ans</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROBLÈME -->
+<section style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-up">Problème <span class="gradient-text">Actuel</span></h2>
+    <p class="section-sub fade-up">Pourquoi les approches traditionnelles ne suffisent plus.</p>
+    <div class="problems fade-up">
+      <div class="problem-card" data-num="1"><h4>Automatisation rigide</h4><p>Traditionnelle, fragile, ne gère pas l'imprévu</p></div>
+      <div class="problem-card" data-num="2"><h4>IA générative limitée</h4><p>Assiste mais n'agit pas de manière autonome</p></div>
+      <div class="problem-card" data-num="3"><h4>Volume & complexité</h4><p>Organisations submergées par la croissance</p></div>
+      <div class="problem-card" data-num="4"><h4>Besoin de réactivité</h4><p>Adaptabilité en temps réel nécessaire</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DÉFINITION -->
+<section id="definition">
+  <div class="container">
+    <h2 class="section-title fade-up">Qu'est-ce que l'<span class="gradient-text">Entreprise Agentique</span> ?</h2>
+    <div class="def-section fade-up" style="margin-top:2rem">
+      <p class="def-quote">Organisation où humains et agents IA forment un écosystème collaboratif intégré</p>
+      <div class="pillars-row">
+        <div class="pillar-mini"><div class="icon">A</div><h4>Agents autonomes</h4><p>Raisonnent, planifient, décident et agissent de manière autonome</p></div>
+        <div class="pillar-mini"><div class="icon">H</div><h4>Supervision humaine</h4><p>Définissent la stratégie, gèrent les exceptions complexes</p></div>
+        <div class="pillar-mini"><div class="icon">O</div><h4>Orchestration coordonnée</h4><p>Flottes d'agents spécialisés collaborant en synergie</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MÉTAPHORE TOUR DE CONTRÔLE -->
+<section style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-up">Métaphore de la <span class="gradient-text">Tour de Contrôle</span></h2>
+    <p class="section-sub fade-up">Comme un aéroport intelligent avec agents spécialisés</p>
+    <div class="tower-grid fade-up">
+      <div class="tower-card"><div class="tc-icon">M</div><h4>Agent Météo & Trafic</h4><p>Surveille conditions, anticipe les perturbations</p></div>
+      <div class="tower-card"><div class="tc-icon">R</div><h4>Agent Ressources</h4><p>Alloue portes, personnel et équipements</p></div>
+      <div class="tower-card"><div class="tc-icon">P</div><h4>Agent Passagers</h4><p>Gère demandes, reprogramme connexions</p></div>
+      <div class="tower-card"><div class="tc-icon">O</div><h4>Agent Opérations</h4><p>Coordonne ravitaillement et maintenance</p></div>
+    </div>
+    <div class="tower-footer fade-up">Humain = chef d'orchestre définissant les priorités stratégiques</div>
+  </div>
+</section>
+
+<!-- COMPARAISON -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-up">RPA vs GenAI vs <span class="gradient-text">Agentic AI</span></h2>
+    <p class="section-sub fade-up">Trois générations d'automatisation, une seule qui raisonne.</p>
+    <div class="compare fade-up">
+      <div class="compare-col"><h3>RPA</h3><p>Script rigide, échoue face à l'imprévu, maintenance élevée</p></div>
+      <div class="compare-col"><h3>GenAI</h3><p>Suggère et recommande, mais n'agit pas de manière autonome</p></div>
+      <div class="compare-col"><h3>Agentic AI</h3><p>Raisonne, s'adapte, agit de manière autonome et coordonnée</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PILIERS -->
+<section id="piliers" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-up">Les 4 <span class="gradient-text">Piliers</span></h2>
+    <p class="section-sub fade-up">Fondations d'une entreprise agentique réussie.</p>
+
+    <div class="pillar-section fade-up">
+      <div class="pillar-header"><div class="pillar-badge">1</div><h3>Agents IA Autonomes</h3></div>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Autonomie</strong><span>Opèrent sans supervision constante</span></div>
+        <div class="kw-card"><strong>Raisonnement</strong><span>Décomposent problèmes complexes</span></div>
+        <div class="kw-card"><strong>Action</strong><span>Accèdent et modifient systèmes (ERP, CRM, BDD)</span></div>
+        <div class="kw-card"><strong>Apprentissage</strong><span>Amélioration continue par feedback</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-section fade-up">
+      <div class="pillar-header"><div class="pillar-badge">2</div><h3>Orchestration Multi-Agents</h3></div>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Collaboration</strong><span>Flottes d'agents spécialisés (vs monolithique)</span></div>
+        <div class="kw-card"><strong>Architecture</strong><span>Orchestration centralisée, décentralisée ou hybride</span></div>
+        <div class="kw-card"><strong>Intégration</strong><span>Interopérabilité avec systèmes legacy via APIs</span></div>
+        <div class="kw-card"><strong>Communication</strong><span>Coordination inter-agents standardisée</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-section fade-up">
+      <div class="pillar-header"><div class="pillar-badge">3</div><h3>Gouvernance & Leadership Humain</h3></div>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Human-in-the-loop</strong><span>Validation des décisions critiques</span></div>
+        <div class="kw-card"><strong>Autonomie bornée</strong><span>Périmètres décisionnels explicites</span></div>
+        <div class="kw-card"><strong>Traçabilité</strong><span>Audit complet des raisonnements et actions</span></div>
+        <div class="kw-card"><strong>Circuit breakers</strong><span>Kill-switch pour situations anormales</span></div>
+      </div>
+    </div>
+
+    <div class="pillar-section fade-up" style="margin-bottom:0">
+      <div class="pillar-header"><div class="pillar-badge">4</div><h3>Fondation de Données</h3></div>
+      <p style="color:var(--text2);margin-bottom:1rem;font-size:.95rem">Les agents ne valent que la qualité des données</p>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Data fabric</strong><span>Intégration transparente de sources hétérogènes en temps réel</span></div>
+        <div class="kw-card"><strong>Qualité des données</strong><span>Exactitude, complétude, fraîcheur et cohérence</span></div>
+        <div class="kw-card"><strong>Sécurité & Conformité</strong><span>Contrôle d'accès, chiffrement, conformité RGPD</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CAS D'USAGE -->
+<section id="usecases">
+  <div class="container">
+    <h2 class="section-title fade-up">Cas d'<span class="gradient-text">Usage</span></h2>
+    <p class="section-sub fade-up">Applications concrètes à travers l'entreprise.</p>
+
+    <div class="usecase fade-up">
+      <h3>Service Client Autonome</h3>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Accès historique</strong><span>Agent accède à l'historique complet instantanément</span></div>
+        <div class="kw-card"><strong>Analyse</strong><span>Croise données clients et patterns de fraude</span></div>
+        <div class="kw-card"><strong>Décision</strong><span>Décide et exécute l'action (remboursement, investigation)</span></div>
+        <div class="kw-card"><strong>Escalade</strong><span>Escalade uniquement cas ambigus ou montants élevés</span></div>
+      </div>
+    </div>
+
+    <div class="usecase fade-up">
+      <h3>Supply Chain Intelligente</h3>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Agent demande</strong><span>Analyse ventes temps réel + tendances + météo</span></div>
+        <div class="kw-card"><strong>Agent stock</strong><span>Surveille niveaux, anticipe ruptures</span></div>
+        <div class="kw-card"><strong>Agent approvisionnement</strong><span>Déclenche commandes optimales automatiquement</span></div>
+        <div class="kw-card"><strong>Agent logistique</strong><span>Réachemine selon perturbations détectées</span></div>
+      </div>
+    </div>
+
+    <div class="usecase fade-up">
+      <h3>Opérations IT & Cybersécurité</h3>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Résolution automatique</strong><span>80 % des tickets courants résolus sans intervention</span></div>
+        <div class="kw-card"><strong>Détection anomalies</strong><span>Isolation des systèmes compromis en temps réel</span></div>
+        <div class="kw-card"><strong>Maintenance prédictive</strong><span>Optimisation cloud dynamique et prévention pannes</span></div>
+        <div class="kw-card"><strong>Traçabilité</strong><span>Documentation complète pour audit et conformité</span></div>
+      </div>
+    </div>
+
+    <div class="usecase fade-up">
+      <h3>Finance & Conformité</h3>
+      <div class="kw-grid">
+        <div class="kw-card"><strong>Réconciliations</strong><span>Automatisation des réconciliations et validations conformité</span></div>
+        <div class="kw-card"><strong>Veille réglementaire</strong><span>Surveillance continue, mise à jour des protocoles</span></div>
+        <div class="kw-card"><strong>Détection risques</strong><span>Détection d'anomalies et signalement des risques</span></div>
+        <div class="kw-card"><strong>Trésorerie</strong><span>Optimisation gestion de trésorerie et prévisions</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KPI -->
+<section id="kpi" style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-up">Bénéfices <span class="gradient-text">Mesurables</span></h2>
+    <p class="section-sub fade-up">Résultats observés chez les adopteurs précoces.</p>
+    <div class="kpi-grid fade-up">
+      <div class="kpi-card"><div class="kpi-num">+35%</div><div class="kpi-label">Productivité</div><div class="kpi-desc">Chez les adopteurs précoces</div></div>
+      <div class="kpi-card"><div class="kpi-num">-30%</div><div class="kpi-label">Coûts</div><div class="kpi-desc">Coût opérationnel moyen</div></div>
+      <div class="kpi-card"><div class="kpi-num">99.5%</div><div class="kpi-label">Qualité</div><div class="kpi-desc">Réduction erreurs, cohérence décisions</div></div>
+      <div class="kpi-card"><div class="kpi-num">24/7</div><div class="kpi-label">Expérience</div><div class="kpi-desc">+30% satisfaction client</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- RISQUES -->
+<section>
+  <div class="container">
+    <h2 class="section-title fade-up">Risques à <span style="color:#ff6b6b">Maîtriser</span></h2>
+    <p class="section-sub fade-up">Adopter l'IA agentique exige une conscience claire des risques.</p>
+    <div class="risk-grid fade-up">
+      <div class="risk-card"><strong>Sécurité</strong><span>Prompt injection, escalade de privilèges, collusion agents</span></div>
+      <div class="risk-card"><strong>Biais algorithmique</strong><span>Discrimination si données d'entraînement biaisées</span></div>
+      <div class="risk-card"><strong>Conformité</strong><span>RGPD, réglementations sectorielles (HIPAA, SOX)</span></div>
+      <div class="risk-card"><strong>Perte de contrôle</strong><span>Dérive d'objectifs, cascading failures entre agents</span></div>
+      <div class="risk-card"><strong>Dépendance excessive</strong><span>Perte de compétences critiques (skill atrophy)</span></div>
+      <div class="risk-card"><strong>Agent sprawl</strong><span>Prolifération non gouvernée créant coûts cachés</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- STRATÉGIES -->
+<section style="background:var(--bg2)">
+  <div class="container">
+    <h2 class="section-title fade-up">Stratégies de <span class="gradient-text">Mitigation</span></h2>
+    <div class="strat-grid fade-up" style="margin-top:2rem">
+      <div class="strat-card"><strong>Security-by-design</strong><span>Validation entrées, sandboxing, least privilege</span></div>
+      <div class="strat-card"><strong>Audits algorithmiques</strong><span>Évaluations régulières d'équité et de biais</span></div>
+      <div class="strat-card"><strong>Governance frameworks</strong><span>Conformité dès la conception, traçabilité complète</span></div>
+      <div class="strat-card"><strong>Bounded autonomy</strong><span>Périmètres explicites + circuit breakers</span></div>
+      <div class="strat-card"><strong>Human-in-command</strong><span>Humains = autorité ultime avec capacité override</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEUILLE DE ROUTE -->
+<section id="roadmap">
+  <div class="container">
+    <h2 class="section-title fade-up">Feuille de <span class="gradient-text">Route</span></h2>
+    <p class="section-sub fade-up">Par où commencer ?</p>
+    <div class="roadmap fade-up">
+      <div class="road-step"><div class="road-num">1</div><div class="road-content"><h4>Évaluer</h4><p>Identifier cas d'usage haute valeur, faible risque</p></div></div>
+      <div class="road-step"><div class="road-num">2</div><div class="road-content"><h4>Préparer</h4><p>Fondation data, gouvernance, compétences</p></div></div>
+      <div class="road-step"><div class="road-num">3</div><div class="road-content"><h4>Piloter</h4><p>Déployer agents périmètre restreint, mesurer ROI</p></div></div>
+      <div class="road-step"><div class="road-num">4</div><div class="road-content"><h4>Échelonner</h4><p>Étendre progressivement avec monitoring</p></div></div>
+      <div class="road-step"><div class="road-num">5</div><div class="road-content"><h4>Optimiser</h4><p>Amélioration continue via feedback loops</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>Entreprise Agentique — Février 2026</p>
+  </div>
+</footer>
+
+<!-- SCROLL ANIMATION -->
+<script>
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible') });
+}, {threshold:0.12});
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
